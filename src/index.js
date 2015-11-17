@@ -14,11 +14,11 @@ var NETWORKS = {
 function Blockr(network, proxyURL) {
   network = network || 'bitcoin'
   assert(network in NETWORKS, 'Unknown network: ' + network)
-  var BASE_URL = 'https://' + NETWORKS[network] + '.blockr.io/api/v1/'
+  var BASE_URL = 'https://insight.bitpay.com/api/'
 
   // end points
   this.transactions = new Transactions(BASE_URL + 'tx/')
-  this.addresses = new Addresses(BASE_URL + 'address/', this.transactions)
+  this.addresses = new Addresses(BASE_URL + 'addr/', this.transactions)
   this.blocks = new Blocks(BASE_URL + 'block/', this.transactions)
 
   this.network = network

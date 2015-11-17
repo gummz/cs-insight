@@ -8,20 +8,20 @@ function Addresses(url, txEndpoint) {
 }
 
 Addresses.prototype.summary = function(addresses, callback) {
-  var uri = this.url + "info/"
+  var uri = this.url
 
   validateAddresses(addresses, function(err) {
     if(err) return callback(err)
 
-    utils.batchRequest(uri, addresses, {params: ["confirmations=0"]}, function(err, data) {
+    utils.batchRequest(uri, addresses, function(err, data) {
       if(err) return callback(err);
 
       var results = data.map(function(address) {
         return {
-          address: address.address,
+          address: address.addrStr,
           balance: address.balance,
           totalReceived: address.totalreceived,
-          txCount: address.nb_txs
+          txCount: address.transactions.length
         }
       })
 

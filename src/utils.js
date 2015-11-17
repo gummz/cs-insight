@@ -15,6 +15,13 @@ function handleJSend(callback) {
   return function(err, response) {
     if (err) return callback(err)
 
+    if(response.statusCode === 200){
+        response.body = {
+            "status": "success",
+            "data": response.body
+        }
+    }
+
     try {
       assertJSend(response.body)
     } catch (exception) {
