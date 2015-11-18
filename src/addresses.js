@@ -87,31 +87,23 @@ Addresses.prototype.transactions = function(addresses, blockHeight, done) {
 }
 
 Addresses.prototype.unspents = function(addresses, callback) {
-  var uri = this.url + "unspent/"
+  var uri = this.url
+  uri = uri.substring(0, uri.length - 1) + 's/'
 
   validateAddresses(addresses, function(err) {
     if(err) return callback(err)
 
-    utils.batchRequest(uri, addresses, {params: ["unconfirmed=1"]}, function(err, data) {
+    utils.batchRequest(uri, addresses, '/utxo', function(err, data) {
       if (err) return callback(err)
 
-      var unspents = []
-      data.forEach(function(result) {
-        var address = result.address
-
-        result.unspent.forEach(function(unspent) {
-          unspent.address = address
-        })
-
-        unspents = unspents.concat(result.unspent)
-      })
+      var unspents = data
 
       var results = unspents.map(function(unspent) {
         return {
           address: unspent.address,
           confirmations: unspent.confirmations,
-          vout: unspent.n,
-          txId: unspent.tx,
+          vout: unspent.vout,
+          txId: unspent.txid,
           value: unspent.amount
         }
       })

@@ -34,12 +34,16 @@ function handleJSend(callback) {
 
 function batchRequest(uri, items, options, callback) {
   items = [].concat(items)
+  var urlAfter = '';
 
   if(typeof options === 'function') {
     callback = options
     options = {}
-  } else {
+  } else if (typeof options === 'object'){
     options = options || {}
+  } else {
+      urlAfter = options;
+      options = {}
   }
 
   var itemsPerBatch = options.itemsPerBatch || 20
@@ -53,10 +57,9 @@ function batchRequest(uri, items, options, callback) {
 
   if(items.length > 0) batches.push(items)
 
-
   var requests = batches.map(function(batch) {
     return function(cb) {
-      makeRequest(uri + batch.join(','), params, cb)
+      makeRequest(uri + batch.join(',') + urlAfter, params, cb)
     }
   })
 
