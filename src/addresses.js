@@ -42,37 +42,20 @@ Addresses.prototype.transactions = function(addresses, blockHeight, done) {
   }
 
   var url = this.url
+  url = url.substring(0, url.length - 1) + 's/'
   var txIds = {}
 
   var self = this
   validateAddresses(addresses, function(err) {
     if(err) return done(err)
-
     async.parallel([
       // confirmed transactions
       function(callback) {
-        utils.batchRequest(url + 'txs/', addresses, {params: ["confirmations=0"]}, function(err, data) {
+        utils.batchRequest(url, addresses, {params: ["from=0&to=30"], url: "/txs"}, function(err, data) {
           if (err) return callback(err)
 
-          data.forEach(function(address) {
-            address.txs.forEach(function(tx) {
-              txIds[tx.tx] = true
-            })
-          })
-
-          callback()
-        })
-      },
-
-      // unconfirmed (FIXME: remove if they ever fix their API)
-      function(callback) {
-        utils.batchRequest(url + 'unconfirmed/', addresses, {}, function(err, data) {
-          if (err) return callback(err)
-
-          data.forEach(function(address) {
-            address.unconfirmed.forEach(function(tx) {
-              txIds[tx.tx] = true
-            })
+          data[0].items.forEach(function(tx) {
+            txIds[tx.txid] = true
           })
 
           callback()

@@ -40,6 +40,10 @@ function batchRequest(uri, items, options, callback) {
     callback = options
     options = {}
   } else if (typeof options === 'object'){
+      if(options.url) {
+          urlAfter = options.url
+          delete options.url
+      }
     options = options || {}
   } else {
       urlAfter = options;
