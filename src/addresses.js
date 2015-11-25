@@ -2,6 +2,22 @@ var async = require('async');
 var utils = require('./utils');
 var bitcoinjs = require('bitcoinjs-lib');
 
+function validateAddresses(addresses, callback) {
+  var invalidAddresses = [].concat(addresses).filter(function(address) {
+    try {
+      bitcoinjs.Address.fromBase58Check(address);
+    } catch (e) {
+      return true;
+    }
+  });
+
+  if (invalidAddresses.length > 0) {
+    return callback(new Error('There are ' + invalidAddresses.length + ' invalid addresses: ' + invalidAddresses.join(', ')));
+  }
+
+  callback(null);
+}
+
 function Addresses(url, txEndpoint) {
   this.url = url;
   this.txEndpoint = txEndpoint;
@@ -32,7 +48,7 @@ Addresses.prototype.summary = function(addresses, callback) {
 
 Addresses.prototype.transactions = function(addresses, blockHeight, done) {
   // optional blockHeight
-  if ('function' === typeof blockHeight) {
+  if (typeof blockHeight === 'function') {
     done = blockHeight;
     blockHeight = 0;
   }
@@ -95,22 +111,5 @@ Addresses.prototype.unspents = function(addresses, callback) {
     });
   });
 };
-
-function validateAddresses(addresses, callback) {
-  addresses = [].concat(addresses);
-  var invalidAddresses = addresses.filter(function(address) {
-    try {
-      bitcoinjs.Address.fromBase58Check(address);
-    } catch (e) {
-      return true;
-    }
-  });
-
-  if (invalidAddresses.length > 0) {
-    return callback(new Error('There are ' + invalidAddresses.length + ' invalid addresses: ' + invalidAddresses.join(', ')));
-  }
-
-  callback(null);
-}
 
 module.exports = Addresses;

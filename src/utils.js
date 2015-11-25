@@ -32,6 +32,25 @@ function handleJSend(callback) {
   };
 }
 
+function makeRequest(uri, params, callback) {
+  if (Array.isArray(params)) {
+    uri += '?' + params.join('&');
+  } else if (params instanceof Function) {
+    callback = params;
+  }
+
+  if (proxyURL) {
+    uri = proxyURL + encodeURIComponent(uri);
+  }
+
+  request({
+    uri: uri,
+    method: 'GET',
+    type: 'json',
+    timeout: 20000
+  }, handleJSend(callback));
+}
+
 function batchRequest(uri, items, options, callback) {
   items = [].concat(items);
   var urlAfter = '';
@@ -79,25 +98,6 @@ function batchRequest(uri, items, options, callback) {
   });
 }
 
-function makeRequest(uri, params, callback) {
-  if (Array.isArray(params)) {
-    uri += '?' + params.join('&');
-  } else if (params instanceof Function) {
-    callback = params;
-  }
-
-  if (proxyURL) {
-    uri = proxyURL + encodeURIComponent(uri);
-  }
-
-  request({
-    uri: uri,
-    method: 'GET',
-    type: 'json',
-    timeout: 20000
-  }, handleJSend(callback));
-}
-
 function makePostRequest(uri, payload, callback) {
   if (proxyURL) {
     uri = proxyURL + encodeURIComponent(uri);
@@ -119,9 +119,9 @@ function setProxyURL(url) {
 }
 
 module.exports = {
-  handleJSend: handleJSend,
   batchRequest: batchRequest,
-  makeRequest: makeRequest,
+  handleJSend: handleJSend,
   makePostRequest: makePostRequest,
+  makeRequest: makeRequest,
   setProxyURL: setProxyURL
 };

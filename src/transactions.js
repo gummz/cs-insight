@@ -1,6 +1,14 @@
 var async = require('async');
 var utils = require('./utils');
 
+function getTotalValue(inputs) {
+  if (!inputs) return 0;
+
+  return inputs.reduce(function(memo, input) {
+    return memo + Math.round(input.amount * 1e8);
+  }, 0);
+}
+
 function Transactions(url) {
   this.url = url;
 }
@@ -25,14 +33,6 @@ Transactions.prototype.summary = function(txIds, callback) {
 
     callback(null, Array.isArray(txIds) ? results : results[0]);
   });
-
-  function getTotalValue(inputs) {
-    if (!inputs) return 0;
-
-    return inputs.reduce(function(memo, input) {
-      return memo + Math.round(input.amount * 1e8);
-    }, 0);
-  }
 };
 
 Transactions.prototype.get = function(txIds, callback) {
