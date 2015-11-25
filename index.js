@@ -6,15 +6,15 @@ var Transactions = require('./lib/transactions');
 var utils = require('./lib/utils');
 
 var NETWORKS = {
-  testnet: 'tbtc',
-  bitcoin: 'btc',
+  testnet: 'test-insight',
+  bitcoin: 'insight',
   litecoin: 'ltc'
 };
 
 function Blockr(network, proxyURL) {
   network = network || 'bitcoin';
   assert(network in NETWORKS, 'Unknown network: ' + network);
-  var BASE_URL = 'https://insight.bitpay.com/api/';
+  var BASE_URL = 'https://' + NETWORKS[network] + '.bitpay.com/api/';
 
   // end points
   this.transactions = new Transactions(BASE_URL + 'tx/');
