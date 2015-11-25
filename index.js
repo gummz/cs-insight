@@ -1,9 +1,9 @@
 var assert = require('assert');
 
-var Addresses = require('./addresses');
-var Blocks = require('./blocks');
-var Transactions = require('./transactions');
-var utils = require('./utils');
+var Addresses = require('./lib/addresses');
+var Blocks = require('./lib/blocks');
+var Transactions = require('./lib/transactions');
+var utils = require('./lib/utils');
 
 var NETWORKS = {
   testnet: 'tbtc',

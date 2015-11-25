@@ -1,7 +1,7 @@
 var assert = require('assert')
 var request = require('httpify')
 var mockery = require('mockery')
-var Blockchain = require('../src/index')
+var Blockchain = require('../')
 
 var proxyURL = 'https://proxy.coin.space/?url='
 
