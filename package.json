@@ -10,7 +10,7 @@
   "license": "MIT",
   "scripts": {
     "lint": "eslint src test",
-    "test": "mocha --reporter list test"
+    "test": "mocha --reporter spec --timeout 15000"
   },
   "dependencies": {
     "async": "^0.9.0",
