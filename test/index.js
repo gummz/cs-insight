@@ -62,8 +62,6 @@ describe('cb-tests with proxy', function() {
         request.apply(null, arguments);
       }
     });
-
-    Blockchain = require('../src/index');
   });
 
   beforeEach(function() {
