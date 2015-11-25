@@ -11,7 +11,7 @@ var NETWORKS = {
   litecoin: 'ltc'
 };
 
-function Blockr(network, proxyURL) {
+function Wrapper(network, proxyURL) {
   network = network || 'bitcoin';
   assert(network in NETWORKS, 'Unknown network: ' + network);
   var BASE_URL = 'https://' + NETWORKS[network] + '.bitpay.com/api/';
@@ -27,11 +27,11 @@ function Blockr(network, proxyURL) {
   this.proxyURL = proxyURL;
 }
 
-Blockr.Addresses = Addresses;
-Blockr.Blocks = Blocks;
-Blockr.Transactions = Transactions;
+Wrapper.Addresses = Addresses;
+Wrapper.Blocks = Blocks;
+Wrapper.Transactions = Transactions;
 
-Blockr.prototype.getNetwork = function() { return this.network; };
-Blockr.prototype.getProxyURL = function() { return this.proxyURL; };
+Wrapper.prototype.getNetwork = function() { return this.network; };
+Wrapper.prototype.getProxyURL = function() { return this.proxyURL; };
 
-module.exports = Blockr;
+module.exports = Wrapper;
