@@ -6,10 +6,10 @@ function Transactions(url) {
 }
 
 Transactions.prototype.summary = function(txIds, callback) {
-  var uri = this.url + "info/";
+  var uri = this.url + 'info/';
 
-  utils.batchRequest(uri, txIds, {params: ["output=coinspace"]}, function(err, data) {
-    if(err) return callback(err);
+  utils.batchRequest(uri, txIds, {params: ['output=coinspace']}, function(err, data) {
+    if (err) return callback(err);
 
     var results = data.map(function(d) {
       return {
@@ -36,10 +36,10 @@ Transactions.prototype.summary = function(txIds, callback) {
 };
 
 Transactions.prototype.get = function(txIds, callback) {
-  var uri = this.url + "raw/";
+  var uri = this.url + 'raw/';
 
   var queryTxIds = [].concat(txIds);
-  utils.batchRequest(uri, queryTxIds, {params: ["output=coinspace"]}, function(err, data) {
+  utils.batchRequest(uri, queryTxIds, {params: ['output=coinspace']}, function(err, data) {
     if (err) return callback(err);
 
     var results = data.map(function(d, i) {
@@ -62,9 +62,9 @@ Transactions.prototype.get = function(txIds, callback) {
 Transactions.prototype.propagate = function(transactions, callback) {
   var that = this;
 
-  if(!Array.isArray(transactions)) {
+  if (!Array.isArray(transactions)) {
     transactions = [transactions];
-  };
+  }
 
   var requests = transactions.map(function(txHex) {
     return function(cb) {

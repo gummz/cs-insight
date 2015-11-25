@@ -15,11 +15,11 @@ function handleJSend(callback) {
   return function(err, response) {
     if (err) return callback(err);
 
-    if(response.statusCode === 200){
-        response.body = {
-            "status": "success",
-            "data": response.body
-        };
+    if (response.statusCode === 200) {
+      response.body = {
+        'status': 'success',
+        'data': response.body
+      };
     }
 
     try {
@@ -36,57 +36,57 @@ function batchRequest(uri, items, options, callback) {
   items = [].concat(items);
   var urlAfter = '';
 
-  if(typeof options === 'function') {
+  if (typeof options === 'function') {
     callback = options;
     options = {};
-  } else if (typeof options === 'object'){
-      if(options.url) {
-          urlAfter = options.url;
-          delete options.url;
-      }
+  } else if (typeof options === 'object') {
+    if (options.url) {
+      urlAfter = options.url;
+      delete options.url;
+    }
     options = options || {};
   } else {
-      urlAfter = options;
-      options = {};
+    urlAfter = options;
+    options = {};
   }
 
   var itemsPerBatch = options.itemsPerBatch || 20;
   var params = options.params;
 
   var batches = [];
-  while(items.length > itemsPerBatch){
+  while (items.length > itemsPerBatch) {
     var batch = items.splice(0, itemsPerBatch);
     batches.push(batch);
   }
 
-  if(items.length > 0) batches.push(items);
+  if (items.length > 0) batches.push(items);
 
   var requests = batches.map(function(batch) {
     return function(cb) {
       makeRequest(uri + batch.join(',') + urlAfter, params, cb);
     };
-  })
+  });
 
   var consolidated = [];
   async.parallel(requests, function(err, results) {
-    if(err) return callback(err);
+    if (err) return callback(err);
 
     results.forEach(function(r) {
       consolidated = consolidated.concat(r);
-    })
+    });
 
     callback(null, consolidated);
   });
 }
 
-function makeRequest(uri, params, callback){
-  if(Array.isArray(params)){
-    uri +=  '?' + params.join('&');
+function makeRequest(uri, params, callback) {
+  if (Array.isArray(params)) {
+    uri += '?' + params.join('&');
   } else if (params instanceof Function) {
     callback = params;
   }
 
-  if(proxyURL) {
+  if (proxyURL) {
     uri = proxyURL + encodeURIComponent(uri);
   }
 
@@ -98,8 +98,8 @@ function makeRequest(uri, params, callback){
   }, handleJSend(callback));
 }
 
-function makePostRequest(uri, payload, callback){
-  if(proxyURL) {
+function makePostRequest(uri, payload, callback) {
+  if (proxyURL) {
     uri = proxyURL + encodeURIComponent(uri);
   }
 

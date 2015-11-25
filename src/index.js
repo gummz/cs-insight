@@ -6,9 +6,9 @@ var Transactions = require('./transactions');
 var utils = require('./utils');
 
 var NETWORKS = {
-  testnet: "tbtc",
-  bitcoin: "btc",
-  litecoin: "ltc"
+  testnet: 'tbtc',
+  bitcoin: 'btc',
+  litecoin: 'ltc'
 };
 
 function Blockr(network, proxyURL) {
@@ -31,7 +31,7 @@ Blockr.Addresses = Addresses;
 Blockr.Blocks = Blocks;
 Blockr.Transactions = Transactions;
 
-Blockr.prototype.getNetwork = function() { return this.network };
-Blockr.prototype.getProxyURL = function() { return this.proxyURL };
+Blockr.prototype.getNetwork = function() { return this.network; };
+Blockr.prototype.getProxyURL = function() { return this.proxyURL; };
 
 module.exports = Blockr;

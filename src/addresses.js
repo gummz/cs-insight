@@ -11,10 +11,10 @@ Addresses.prototype.summary = function(addresses, callback) {
   var uri = this.url;
 
   validateAddresses(addresses, function(err) {
-    if(err) return callback(err);
+    if (err) return callback(err);
 
     utils.batchRequest(uri, addresses, function(err, data) {
-      if(err) return callback(err);
+      if (err) return callback(err);
 
       var results = data.map(function(address) {
         return {
@@ -47,11 +47,11 @@ Addresses.prototype.transactions = function(addresses, blockHeight, done) {
 
   var self = this;
   validateAddresses(addresses, function(err) {
-    if(err) return done(err);
+    if (err) return done(err);
     async.parallel([
       // confirmed transactions
       function(callback) {
-        utils.batchRequest(url, addresses, {params: ["from=0&to=30"], url: "/txs"}, function(err, data) {
+        utils.batchRequest(url, addresses, {params: ['from=0&to=30'], url: '/txs'}, function(err, data) {
           if (err) return callback(err);
 
           data[0].items.forEach(function(tx) {
@@ -74,7 +74,7 @@ Addresses.prototype.unspents = function(addresses, callback) {
   uri = uri.substring(0, uri.length - 1) + 's/';
 
   validateAddresses(addresses, function(err) {
-    if(err) return callback(err);
+    if (err) return callback(err);
 
     utils.batchRequest(uri, addresses, '/utxo', function(err, data) {
       if (err) return callback(err);
@@ -101,13 +101,13 @@ function validateAddresses(addresses, callback) {
   var invalidAddresses = addresses.filter(function(address) {
     try {
       bitcoinjs.Address.fromBase58Check(address);
-    } catch(e) {
+    } catch (e) {
       return true;
     }
   });
 
-  if(invalidAddresses.length > 0) {
-    return callback(new Error("There are " + invalidAddresses.length + " invalid addresses: " + invalidAddresses.join(', ')));
+  if (invalidAddresses.length > 0) {
+    return callback(new Error('There are ' + invalidAddresses.length + ' invalid addresses: ' + invalidAddresses.join(', ')));
   }
 
   callback(null);
