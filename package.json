@@ -1,9 +1,15 @@
 {
-  "name": "cs-blockr",
+  "name": "cs-insight",
   "version": "3.1.1",
   "description": "common-blockchain-blockr",
   "main": "./src/index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/skyjam/cs-insight.git"
+  },
+  "license": "MIT",
   "scripts": {
+    "lint": "eslint src test",
     "test": "mocha --reporter list test"
   },
   "dependencies": {
@@ -14,6 +20,9 @@
   "devDependencies": {
     "cb-tester": "^0.1.x",
     "coveralls": "^2.11.2",
+    "eslint": "^1.10.1",
+    "eslint-config-airbnb": "^1.0.0",
+    "eslint-plugin-mocha": "^1.1.0",
     "istanbul": "^0.3.2",
     "mocha": "^1.21.5",
     "mockery": "^1.4.0"
