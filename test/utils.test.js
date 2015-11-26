@@ -1,3 +1,5 @@
+/*eslint no-unused-expressions: 0*/
+
 var batchRequestAsync = require('../lib/utils').batchRequestAsync;
 var chai = require('chai');
 var expect = chai.expect;
