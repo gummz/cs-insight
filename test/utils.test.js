@@ -1,9 +1,10 @@
 /*eslint no-unused-expressions: 0*/
 
-var batchRequestAsync = require('../lib/utils').batchRequestAsync;
+var batchGetRequest = require('../lib/utils').batchGetRequest;
+var batchPostRequest = require('../lib/utils').batchPostRequest;
 var chai = require('chai');
 var expect = chai.expect;
-var makeRequestAsync = require('../lib/utils').makeRequestAsync;
+var getRequest = require('../lib/utils').getRequest;
 var nock = require('nock');
 
 describe('utils', function() {
@@ -11,7 +12,7 @@ describe('utils', function() {
 
   describe('batch request', function() {
     it('should return empty array if there no any items are passed', function(done) {
-      batchRequestAsync('http://some.org/url')
+      batchGetRequest('http://some.org/url')
         .then(function(res) {
           expect(res).to.be.empty;
           done();
@@ -31,7 +32,7 @@ describe('utils', function() {
         .get('/cat-poems/1')
         .reply(200, 'Hello World!');
 
-      batchRequestAsync('http://google.com/cat-poems/', 1, {retry: 5})
+      batchGetRequest('http://google.com/cat-poems/', 1, {retry: 5})
         .then(function(res) {
           expect(res[0]).to.equal('Hello World!');
           done();
@@ -51,7 +52,7 @@ describe('utils', function() {
         .get('/missed-cat-poems/1')
         .reply(200, 'Hello World!');
 
-      batchRequestAsync('http://google.com/missed-cat-poems/', 1, {retry: 5})
+      batchGetRequest('http://google.com/missed-cat-poems/', 1, {retry: 5})
         .then(function(res) {
           done('got result', res);
         })
@@ -67,7 +68,7 @@ describe('utils', function() {
         .get('/url/123456')
         .reply(200, 'Hello World!');
 
-      batchRequestAsync('http://some.org/url/', 123456)
+      batchGetRequest('http://some.org/url/', 123456)
         .then(function(res) {
           expect(res[0]).to.equal('Hello World!');
           done();
@@ -84,7 +85,7 @@ describe('utils', function() {
         .get('/url/2')
         .reply(200, 'Hello World 2!');
 
-      batchRequestAsync('http://some.org/url/', [1, 2])
+      batchGetRequest('http://some.org/url/', [1, 2])
         .then(function(res) {
           expect(res[0]).to.equal('Hello World 1!');
           expect(res[1]).to.equal('Hello World 2!');
@@ -102,7 +103,7 @@ describe('utils', function() {
         .get('/url/1')
         .reply(200, 'Hello Another World!');
 
-      batchRequestAsync(['http://one.org/url/', 'http://another.org/url/'], 1)
+      batchGetRequest(['http://one.org/url/', 'http://another.org/url/'], 1)
         .then(function(res) {
           expect(res[0][0]).to.equal('Hello One World!');
           expect(res[0][1]).to.equal('Hello Another World!');
@@ -116,7 +117,7 @@ describe('utils', function() {
         .get('/url?query=' + encodeURIComponent('http://one.org/url/1'))
         .reply(200);
 
-      batchRequestAsync('http://one.org/url/', 1, {proxyUrl: 'http://proxy.org/url?query='})
+      batchGetRequest('http://one.org/url/', 1, {proxyUrl: 'http://proxy.org/url?query='})
         .then(function() {
           done();
         })
@@ -128,7 +129,7 @@ describe('utils', function() {
         .get('/url/123456')
         .reply(404, 'Not found');
 
-      batchRequestAsync('http://some.org/url/', 123456)
+      batchGetRequest('http://some.org/url/', 123456)
         .then(function() {
           done('should reject Promise');
         })
@@ -141,13 +142,13 @@ describe('utils', function() {
     });
   });
 
-  describe('make request', function() {
+  describe('get request', function() {
     it('should request GET http://google.com/cat-poems/make-request and return Promise on successful response', function(done) {
       nock('http://google.com')
         .get('/cat-poems/make-request')
         .reply(200, 'The sun slants in, its light a wedge');
 
-      makeRequestAsync('http://google.com/cat-poems/make-request')
+      getRequest('http://google.com/cat-poems/make-request')
         .then(function(res) {
           expect(res).to.equal('The sun slants in, its light a wedge');
           done();
@@ -167,7 +168,7 @@ describe('utils', function() {
         .get('/cat-poems/make-request-retry')
         .reply(200, 'Hello World!');
 
-      makeRequestAsync('http://google.com/cat-poems/make-request-retry', {retry: 5})
+      getRequest('http://google.com/cat-poems/make-request-retry', {retry: 5})
         .then(function(res) {
           expect(res).to.equal('Hello World!');
           done();
@@ -187,7 +188,7 @@ describe('utils', function() {
         .get('/cat-poems/make-request-retry-fail')
         .reply(200, 'Hello World!');
 
-      makeRequestAsync('http://google.com/cat-poems/make-request-retry-fail', {retry: 5})
+      getRequest('http://google.com/cat-poems/make-request-retry-fail', {retry: 5})
         .then(function(res) {
           done('got result', res);
         })
@@ -195,6 +196,51 @@ describe('utils', function() {
           expect(err.code).to.equal('ECONNRESET');
           done();
         });
+    });
+  });
+
+  describe('batch post request', function() {
+    it('should send single POST', function(done) {
+      nock('http://google.com')
+        .post('/cat-poems', 'Hello World')
+        .reply(201);
+
+      batchPostRequest('http://google.com/cat-poems', 'Hello World')
+        .then(function() {
+          done();
+        })
+        .catch(done);
+    });
+
+    it('should send multiple POST', function(done) {
+      nock('http://google.com')
+        .post('/cat-poems', 'The Owl and the Pussy-cat went to sea')
+        .reply(201);
+
+      nock('http://google.com')
+        .post('/cat-poems', 'In a beautiful pea green boat,')
+        .reply(201);
+
+      batchPostRequest('http://google.com/cat-poems', [
+        'The Owl and the Pussy-cat went to sea',
+        'In a beautiful pea green boat,'
+      ])
+        .then(function() {
+          done();
+        })
+        .catch(done);
+    });
+
+    it('should send POST thought passed proxy', function(done) {
+      nock('http://proxy.org')
+        .post('/url?query=' + encodeURIComponent('http://google.com/cat-poems'), 'Cats sleep, anywhere')
+        .reply(201);
+
+      batchPostRequest('http://google.com/cat-poems', 'Cats sleep, anywhere', {proxyUrl: 'http://proxy.org/url?query='})
+        .then(function() {
+          done();
+        })
+        .catch(done);
     });
   });
 });
