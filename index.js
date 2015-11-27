@@ -2,6 +2,7 @@ var assert = require('assert');
 
 var Addresses = require('./lib/addresses');
 var Blocks = require('./lib/blocks');
+var LightTransactions = require('./lib/transactions/light');
 var Transactions = require('./lib/transactions');
 var utils = require('./lib/utils');
 
@@ -18,6 +19,7 @@ function Wrapper(network, proxyURL) {
 
   // end points
   this.transactions = new Transactions(BASE_URL);
+  this.lightTransactions = new LightTransactions(BASE_URL);
   this.addresses = new Addresses(BASE_URL + 'addr/', this.transactions);
   this.blocks = new Blocks(BASE_URL + 'block/', this.transactions);
 
