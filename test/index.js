@@ -65,4 +65,3 @@ describe('cb-tests with proxy', function() {
 
   require('cb-tester')(options);
 });
-
