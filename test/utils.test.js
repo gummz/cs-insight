@@ -31,7 +31,7 @@ describe('utils', function() {
 
     batchRequestAsync('http://google.com/cat-poems/', 1, {retry: 5})
       .then(function(res) {
-        expect(res[0][0]).to.equal('Hello World!');
+        expect(res[0]).to.equal('Hello World!');
         done();
       })
       .catch(done);
@@ -50,7 +50,7 @@ describe('utils', function() {
       .reply(200, 'Hello World!');
 
     batchRequestAsync('http://google.com/missed-cat-poems/', 1, {retry: 5})
-      .then(function() {
+      .then(function(res) {
         done('got result', res);
       })
       .catch(function(err) {
@@ -67,7 +67,7 @@ describe('utils', function() {
 
     batchRequestAsync('http://some.org/url/', 123456)
       .then(function(res) {
-        expect(res[0][0]).to.equal('Hello World!');
+        expect(res[0]).to.equal('Hello World!');
         done();
       })
       .catch(done);
@@ -84,8 +84,8 @@ describe('utils', function() {
 
     batchRequestAsync('http://some.org/url/', [1, 2])
       .then(function(res) {
-        expect(res[0][0]).to.equal('Hello World 1!');
-        expect(res[1][0]).to.equal('Hello World 2!');
+        expect(res[0]).to.equal('Hello World 1!');
+        expect(res[1]).to.equal('Hello World 2!');
         done();
       })
       .catch(done);

@@ -7,5 +7,5 @@ describe('cb-tests', function() {
     options.blockchain = new Blockchain('testnet');
   });
 
-  require('cb-tester/transactions')(options);
+  require('cb-tester/blocks')(options);
 });
