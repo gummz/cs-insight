@@ -21,7 +21,7 @@ function Wrapper(network, proxyURL) {
   this.transactions = new Transactions(BASE_URL);
   this.lightTransactions = new LightTransactions(BASE_URL);
   this.addresses = new Addresses(BASE_URL + 'addr/', this.transactions);
-  this.blocks = new Blocks(BASE_URL + 'block/', this.lightTransactions);
+  this.blocks = new Blocks(BASE_URL, this.lightTransactions);
 
   this.network = network;
 
