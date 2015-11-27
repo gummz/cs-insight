@@ -18,10 +18,10 @@ function Wrapper(network, proxyURL) {
   var BASE_URL = 'https://' + NETWORKS[network] + '.bitpay.com/api/';
 
   // end points
-  this.transactions = new Transactions(BASE_URL);
   this.lightTransactions = new LightTransactions(BASE_URL);
-  this.addresses = new Addresses(BASE_URL + 'addr/', this.transactions);
   this.blocks = new Blocks(BASE_URL, this.lightTransactions);
+  this.transactions = new Transactions(BASE_URL, this.blocks);
+  this.addresses = new Addresses(BASE_URL + 'addr/', this.transactions);
 
   this.network = network;
 
