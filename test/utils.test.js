@@ -153,6 +153,27 @@ describe('utils', function() {
         })
         .catch(done);
     });
+
+    it('should do parametric request with multiple ids', function(done) {
+      nock('http://google.com')
+        .get('/0/url')
+        .reply(200, 'Hello World 0!');
+      nock('http://google.com')
+        .get('/1/url')
+        .reply(200, 'Hello World 1!');
+      nock('http://google.com')
+        .get('/2/url')
+        .reply(200, 'Hello World 2!');
+
+      batchGetRequest('http://google.com/:id/url', [{id: 0}, {id: 1}, {id: 2}])
+        .then(function(res) {
+          expect(res[0]).to.equal('Hello World 0!');
+          expect(res[1]).to.equal('Hello World 1!');
+          expect(res[2]).to.equal('Hello World 2!');
+          done();
+        })
+        .catch(done);
+    });
   });
 
   describe('get request', function() {
