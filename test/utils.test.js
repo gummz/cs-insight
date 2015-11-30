@@ -140,6 +140,19 @@ describe('utils', function() {
           done();
         });
     });
+
+    it('should do parametric request', function(done) {
+      nock('http://google.com')
+        .get('/123456/url')
+        .reply(200, 'Hello World!');
+
+      batchGetRequest('http://google.com/:id/url', {id: 123456})
+        .then(function(res) {
+          expect(res[0]).to.equal('Hello World!');
+          done();
+        })
+        .catch(done);
+    });
   });
 
   describe('get request', function() {
