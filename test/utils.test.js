@@ -32,7 +32,7 @@ describe('utils', function() {
         .get('/cat-poems/1')
         .reply(200, 'Hello World!');
 
-      batchGetRequest('http://google.com/cat-poems/', 1, {retry: 5})
+      batchGetRequest('http://google.com/cat-poems/', 1, {retry: 5, delayBeforeRetry: 0})
         .then(function(res) {
           expect(res[0]).to.equal('Hello World!');
           done();
@@ -52,7 +52,7 @@ describe('utils', function() {
         .get('/missed-cat-poems/1')
         .reply(200, 'Hello World!');
 
-      batchGetRequest('http://google.com/missed-cat-poems/', 1, {retry: 5})
+      batchGetRequest('http://google.com/missed-cat-poems/', 1, {retry: 5, delayBeforeRetry: 0})
         .then(function(res) {
           done('got result', res);
         })
@@ -168,7 +168,7 @@ describe('utils', function() {
         .get('/cat-poems/make-request-retry')
         .reply(200, 'Hello World!');
 
-      getRequest('http://google.com/cat-poems/make-request-retry', {retry: 5})
+      getRequest('http://google.com/cat-poems/make-request-retry', {retry: 5, delayBeforeRetry: 0})
         .then(function(res) {
           expect(res).to.equal('Hello World!');
           done();
@@ -188,7 +188,7 @@ describe('utils', function() {
         .get('/cat-poems/make-request-retry-fail')
         .reply(200, 'Hello World!');
 
-      getRequest('http://google.com/cat-poems/make-request-retry-fail', {retry: 5})
+      getRequest('http://google.com/cat-poems/make-request-retry-fail', {retry: 5, delayBeforeRetry: 0})
         .then(function(res) {
           done('got result', res);
         })
