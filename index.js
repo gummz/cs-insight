@@ -2,24 +2,26 @@ var assert = require('assert');
 
 var Addresses = require('./lib/addresses');
 var Blocks = require('./lib/blocks');
+var LightTransactions = require('./lib/transactions/light');
 var Transactions = require('./lib/transactions');
 var utils = require('./lib/utils');
 
 var NETWORKS = {
-  testnet: 'tbtc',
-  bitcoin: 'btc',
+  testnet: 'test-insight',
+  bitcoin: 'insight',
   litecoin: 'ltc'
 };
 
-function Blockr(network, proxyURL) {
+function Wrapper(network, proxyURL) {
   network = network || 'bitcoin';
   assert(network in NETWORKS, 'Unknown network: ' + network);
-  var BASE_URL = 'https://insight.bitpay.com/api/';
+  var BASE_URL = 'https://' + NETWORKS[network] + '.bitpay.com/api/';
 
   // end points
-  this.transactions = new Transactions(BASE_URL + 'tx/');
-  this.addresses = new Addresses(BASE_URL + 'addr/', this.transactions);
-  this.blocks = new Blocks(BASE_URL + 'block/', this.transactions);
+  this.lightTransactions = new LightTransactions(BASE_URL);
+  this.blocks = new Blocks(BASE_URL, this.lightTransactions);
+  this.transactions = new Transactions(BASE_URL, this.blocks);
+  this.addresses = new Addresses(BASE_URL, this.blocks, this.lightTransactions);
 
   this.network = network;
 
@@ -27,11 +29,11 @@ function Blockr(network, proxyURL) {
   this.proxyURL = proxyURL;
 }
 
-Blockr.Addresses = Addresses;
-Blockr.Blocks = Blocks;
-Blockr.Transactions = Transactions;
+Wrapper.Addresses = Addresses;
+Wrapper.Blocks = Blocks;
+Wrapper.Transactions = Transactions;
 
-Blockr.prototype.getNetwork = function() { return this.network; };
-Blockr.prototype.getProxyURL = function() { return this.proxyURL; };
+Wrapper.prototype.getNetwork = function() { return this.network; };
+Wrapper.prototype.getProxyURL = function() { return this.proxyURL; };
 
-module.exports = Blockr;
+module.exports = Wrapper;
