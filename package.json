@@ -10,7 +10,7 @@
   "license": "MIT",
   "scripts": {
     "lint": "eslint src test",
-    "test": "mocha --reporter spec --timeout 600000"
+    "test": "mocha --reporter spec --timeout 600000 test/cb-insight-with-proxy.test.js"
   },
   "dependencies": {
     "async": "^0.9.0",

@@ -1,8 +1,6 @@
 /*eslint no-new: 0*/
 
 var assert = require('assert');
-var request = require('httpify');
-var mockery = require('mockery');
 var Blockchain = require('../');
 
 var proxyURL = 'https://proxy.coin.space/?url=';
@@ -34,34 +32,4 @@ describe('Blockchain', function() {
       }, /Unknown network: zoigberg/);
     });
   });
-});
-
-describe('cb-tests with proxy', function() {
-  var options = {};
-
-  before(function() {
-    mockery.enable({
-      useCleanCache: true,
-      warnOnUnregistered: false
-    });
-
-    mockery.registerMock('httpify', function(options) {
-      if (options.url && options.url.indexOf('https://tbtc.blockr.io/api/') === 0) {
-        assert.fail(options.uri, proxyURL, 'Expect proxy URL used for request, but currently requesting blockr API directly');
-      } else {
-        request.apply(null, arguments);
-      }
-    });
-  });
-
-  beforeEach(function() {
-    options.blockchain = new Blockchain('testnet', proxyURL);
-  });
-
-  after(function() {
-    mockery.deregisterAll();
-    mockery.disable();
-  });
-
-  require('cb-tester')(options);
 });
