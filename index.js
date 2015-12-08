@@ -3,6 +3,7 @@ var assert = require('assert');
 var Addresses = require('./lib/addresses');
 var Blocks = require('./lib/blocks');
 var LightTransactions = require('./lib/transactions/light');
+var Mustache = require('Mustache');
 var Transactions = require('./lib/transactions');
 
 var NETWORKS = {
@@ -11,10 +12,14 @@ var NETWORKS = {
   litecoin: 'ltc'
 };
 
-function Wrapper(network, proxyURL) {
+function Wrapper(network, proxyURL, baseURL) {
   network = network || 'bitcoin';
+  baseURL = baseURL || 'https://{{#network}}{{.}}.{{/network}}bitpay.com/api/';
   assert(network in NETWORKS, 'Unknown network: ' + network);
-  var BASE_URL = 'https://' + NETWORKS[network] + '.bitpay.com/api/';
+
+  var BASE_URL = Mustache.render(baseURL, {
+    network: NETWORKS[network]
+  });
 
   // end points
   this.lightTransactions = new LightTransactions(BASE_URL, proxyURL);
@@ -24,6 +29,7 @@ function Wrapper(network, proxyURL) {
 
   this.network = network;
   this.proxyURL = proxyURL;
+  this.apiURL = BASE_URL;
 }
 
 Wrapper.Addresses = Addresses;
