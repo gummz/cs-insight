@@ -19,6 +19,7 @@
     "es6-promise": "^3.0.2",
     "httpify": "^0.4.1",
     "lodash": "^3.10.1",
+    "mustache": "^2.2.0",
     "path-to-regexp": "^1.2.1"
   },
   "devDependencies": {
