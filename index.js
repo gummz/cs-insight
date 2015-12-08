@@ -3,7 +3,7 @@ var assert = require('assert');
 var Addresses = require('./lib/addresses');
 var Blocks = require('./lib/blocks');
 var LightTransactions = require('./lib/transactions/light');
-var Mustache = require('Mustache');
+var Mustache = require('mustache');
 var Transactions = require('./lib/transactions');
 
 var NETWORKS = {
@@ -27,9 +27,9 @@ function Wrapper(network, proxyURL, baseURL) {
   this.transactions = new Transactions(BASE_URL, proxyURL, this.blocks);
   this.addresses = new Addresses(BASE_URL, proxyURL, this.blocks, this.lightTransactions);
 
+  this.apiURL = BASE_URL;
   this.network = network;
   this.proxyURL = proxyURL;
-  this.apiURL = BASE_URL;
 }
 
 Wrapper.Addresses = Addresses;
