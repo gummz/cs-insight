@@ -31,7 +31,6 @@ describe('Transactions', function() {
 
       wrapper.transactions.propagate('ffd316b0c4feb9d29c61c3734fcde0167600441e560931c8c7267a9de3d9e29a')
         .then(function() {
-
           done();
         })
         .catch(done);
