@@ -28,6 +28,20 @@ describe('Transactions', function() {
         .catch(done);
     });
 
+    it('should fail on incorrect transaction id', function(done) {
+      transactions
+        .get('XXXX')
+        .then(function(res) {
+          done('does not fail');
+        })
+        .catch(function(err) {
+          expect(err).to.exist;
+          expect(err.res).to.exist;
+          expect(err.res.message).to.exist;
+          done();
+        });
+    });
+
     it('should return transaction', function(done) {
       transactions
         .get('4979a0b69703f888dc5936a4be039dabb976fae7d45604d57b5fad35b3c94200')
