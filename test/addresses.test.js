@@ -16,7 +16,7 @@ describe('Addresses', function() {
 
   before(setupFixtures.lightUp);
 
-  describe.only('summary', function() {
+  describe('summary', function() {
     it('should return address', function(done) {
       addresses
         .summary(
@@ -30,7 +30,7 @@ describe('Addresses', function() {
         .catch(done);
     });
 
-    it('should return error when address is not valid', function(done) {
+    it('should fail on incorrect address id', function(done) {
       addresses
         .summary('XXXX')
         .then(function() {
@@ -59,6 +59,19 @@ describe('Addresses', function() {
           done();
         })
         .catch(done);
+    });
+
+    it('should fail on incorrect address id', function(done) {
+      addresses
+        .transactions('XXXX')
+        .then(function() {
+          done('does not fail');
+        })
+        .catch(function(err) {
+          expect(err).to.exist;
+          expect(err.res).to.exist;
+          done();
+        });
     });
   });
 
