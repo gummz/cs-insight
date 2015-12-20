@@ -71,6 +71,19 @@ describe('Blocks', function() {
         })
         .catch(done);
     });
+
+    it('should fail on wrong block id', function(done) {
+      blocks
+        .summary('XXXX')
+        .then(function() {
+          done('doe not fail');
+        })
+        .catch(function(err) {
+          expect(err).to.exist;
+          expect(err.res).to.exist;
+          done();
+        });
+    });
   });
 
   after(setupFixtures.down);
