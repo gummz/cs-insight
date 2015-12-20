@@ -92,6 +92,19 @@ describe('Addresses', function() {
         })
         .catch(done);
     });
+
+    it('should fail on incorrect address id', function(done) {
+      addresses
+        .unspents('XXXX')
+        .then(function() {
+          done('does not fail');
+        })
+        .catch(function(err) {
+          expect(err).to.exist;
+          expect(err.res).to.exist;
+          done();
+        });
+    });
   });
 
   after(setupFixtures.down);
