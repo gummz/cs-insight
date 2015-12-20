@@ -90,6 +90,20 @@ describe('Transactions', function() {
         })
         .catch(done);
     });
+
+    it('should fail on incorrect transaction id', function(done) {
+      transactions
+        .summary('XXXX')
+        .then(function() {
+          done('does not fail');
+        })
+        .catch(function(err) {
+          expect(err).to.exist;
+          expect(err.res).to.exist;
+          expect(err.res.message).to.exist;
+          done();
+        });
+    });
   });
 
   describe('propagate', function() {
