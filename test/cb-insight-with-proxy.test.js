@@ -6,7 +6,7 @@ var mockery = require('mockery');
 var proxyURL = 'https://proxy.coin.space/?url=';
 
 
-describe('cb-tests with proxy', function() {
+describe.skip('cb-tests with proxy', function() {
   var options = {};
 
   before(function() {

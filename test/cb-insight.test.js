@@ -1,9 +1,10 @@
-var Blockchain = require('../');
+/*eslint no-unused-expressions: 0*/
 
-describe('cb-tests', function() {
+describe.skip('cb-tests', function() {
   var options = {};
 
   beforeEach(function() {
+    var Blockchain = require('../');
     options.blockchain = new Blockchain('testnet');
   });
 

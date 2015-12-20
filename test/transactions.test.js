@@ -1,0 +1,100 @@
+/*eslint no-unused-expressions: 0*/
+
+var Blockchain = require('../');
+var chai = require('chai');
+var setupFixtures = require('./setup-fixtures');
+
+var expect = chai.expect;
+
+
+describe('Transactions', function() {
+  var transactions;
+
+  before(function() {
+    var api = new Blockchain('testnet');
+    transactions = api.transactions;
+  });
+
+  before(setupFixtures.lightUp);
+
+  describe('get', function() {
+    it('should empty value if id is not passed', function(done) {
+      transactions
+        .get()
+        .then(function(res) {
+          expect(res).to.not.exist;
+          done();
+        })
+        .catch(done);
+    });
+
+    it('should return transaction', function(done) {
+      transactions
+        .get('4979a0b69703f888dc5936a4be039dabb976fae7d45604d57b5fad35b3c94200')
+        .then(function(res) {
+          expect(res).to.exist;
+          expect(res).to.has.property('blockId', '00000000000010efb93b48b18d489d9e959997dd4f9e2acaf3191ad9ec1aa3e4');
+          expect(res).to.has.property('blockHeight', 396393);
+          done();
+        })
+        .catch(done);
+    });
+  });
+
+  describe.skip('latest', function() {
+    it('should return last transaction', function(done) {
+      transactions
+        .latest()
+        .then(function() {
+          done();
+        })
+        .catch(done);
+    });
+  });
+
+  describe('summary', function() {
+    it('should return empty value if id is not passed', function(done) {
+      transactions
+        .summary()
+        .then(function(res) {
+          expect(res).to.not.exist;
+          done();
+        })
+        .catch(done);
+    });
+
+    it('should return transaction summary', function(done) {
+      transactions
+        .summary('4979a0b69703f888dc5936a4be039dabb976fae7d45604d57b5fad35b3c94200')
+        .then(function(res) {
+          expect(res).to.exist;
+          expect(res).to.has.property('txId', '4979a0b69703f888dc5936a4be039dabb976fae7d45604d57b5fad35b3c94200');
+          expect(res).to.has.property('blockId', '00000000000010efb93b48b18d489d9e959997dd4f9e2acaf3191ad9ec1aa3e4');
+          expect(res).to.has.property('blockHeight', 396393);
+
+          done();
+        })
+        .catch(done);
+    });
+  });
+
+  describe('propagate', function() {
+    it('should add new transaction', function(done) {
+      transactions
+        .propagate('01000000016e90f86ccebd3caf5a339633bfdb28c1ae6961a752ad21e8e212b1e97a8965b40' +
+                   '10000006b483045022100d1eb848df7594a5f9b697dea0bf733c8ec87dec2b63142e4b572b0' +
+                   '7f2f09d12702200f6b124db6689e645f39e57d6cffcfb5f5869c089c4f1922ef6e6cfe3f07e' +
+                   '8e20121037ce0c786277fafc38e2e2d49b1be36f02a360ba4a2dd58cf977784975a573fb6ff' +
+                   'ffffff02c0175302000000001976a91461120f6e004c7a2e20ecdedf461f1eb032c2e5c388a' +
+                   'c48698831d00000001976a9140fe1355e31a061b2508919578b6f8c60dd2f29cf88ac00000000')
+        .then(function(res) {
+          expect(res).to.exist;
+          expect(res).to.has.property('txid', 'qwerty');
+          done();
+        })
+        .catch(done);
+    });
+  });
+
+  after(setupFixtures.down);
+});

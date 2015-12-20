@@ -1,6 +1,6 @@
 var Blockchain = require('../');
 
-describe('cb light transactions get tests', function() {
+describe.skip('cb light transactions get tests', function() {
   var options = {};
 
   beforeEach(function() {

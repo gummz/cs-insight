@@ -1,225 +1,73 @@
+/*eslint no-unused-expressions: 0*/
+
 var Blockchain = require('../');
-var nock = require('nock');
-var addresses = require('./fixtures/addresses.json').addresses;
+var chai = require('chai');
+var setupFixtures = require('./setup-fixtures');
 
-describe.skip('Addresses', function() {
-  var api = new Blockchain();
-  describe('summery', function() {
+var expect = chai.expect;
+
+describe('Addresses', function() {
+  var addresses;
+
+  before(function() {
+    var api = new Blockchain('testnet');
+    addresses = api.addresses;
+  });
+
+  before(setupFixtures.lightUp);
+
+  describe('summary', function() {
     it('should return address', function(done) {
-      addresses.forEach(function(address) {
-        nock('https://insight.bitpay.com')
-          .get('/api/addrs/' + address.addrStr)
-          .reply(200, address);
-      });
-
-      api.addresses.summary([
-        'mvRiXbuKCoJMqVq3Vxh5xQCfQPfHEb6bda',
-        'mfrm1pP9fXiuE3hyyu8YdowG5hLEgeAudr',
-        'mtJKB9w4oJ8zLbvFPEKHBTqgt89KCiT2iT',
-        'mjdqNZJKwMW2HjVqMb9hEaVwmkejDg5CrA',
-        'mr5sMB8nXkLrNib4w2aeTmuMEeMV2kWGwk',
-        'mubCRDPtTF18K2rUhk3rT5YN15cNHrYyaU',
-        'n2uMdJgc8D8fP2TNfwQr2QKKxqyBgdeUxL',
-        'mwda8zPuXHP3eubDxHXB5GeX6gptTcr6gf',
-        'n4eKiKivWieB2Nn4GjEYNsj2XKs794j5Fw',
-        'n1nuq96DbHondQtBjMYNUR1drrdPZxSw8F',
-        'n39UfuN8fzWpF2pubLGYfJaojovBeJgFQ2',
-        'miCefSqfJyFkbM9KSmac5Ne5ugRMyEcbKV',
-        'mkxksPkbEgwut8GC22EZ6sWCNvFw9ug66R',
-        'mgq1Gr7D3gY1m9kZGxTunQvNmJ5wu98agC',
-        'n46byCac7epF3GsjTTdg4ARJrfEWuc7S5b',
-        'msRGmo1NKGhvZrE2tMcuDcaKEbduJFNzhT',
-        'mxZssuGN4XmzcJyt4AHxN5BJeCSN9YsmXf',
-        'mskvz9rqgVm5L7Qa1YdPtKF6yZHgqXZ64B',
-        'mnqYiM6xghvMzrRP1wZytgrGBVtyfpEKGD',
-        'mnqUuGxyhCiLmPkZzqmhBLmp5DcwnVYDVy',
-        'my37MjuLbR35U96xyq5zWbR7dnDiLiFfvF',
-        'mgESVpbDLph7ny8fp2v8QFrX9AKVRfG7jD',
-        'mggR7SgWWHJC386oct59wXrBsXKEqCMPx7',
-        'n4gokukwv1dyDFcrxDtCLvmji3FQpn6VuF',
-        'n3AQBPAomL4p3FVqRPmEaD3VGvFX1WvsHA',
-        'muvpKVj9mwLopvGbhLWiqDULaWT3Ps5WpP',
-        'mj8PD43j99rXU9BJhnU7L5EjJHVsFCysni',
-        'mpAzM7qYUVp5i7enAhTvXUMuF4mYTwtAiB',
-        'n4dH8wELjjWnkACN1JyGqL3fzYjcUFnQs6',
-        'mwBnbD9W7BjjpzWuUHLthSMKYnaKzAS9xL',
-        'miNvBuLAQhBzFyncEUD6ao948YxeDsnpZ7',
-        'mttfrcJVyEtodygS6uGMHJkHHSYBhBPKuk',
-        'mz7cDzvhWZsTzq2siMgmjrtwf3xZM1MZYR',
-        'mvcQFt7XEqpmQGgQtPYpWoxJouakRJjYVq',
-        'mnE7L3rnwU5rkSw5ByJdoTbiKHTLme6XKJ',
-        'mi4Pzr1pdiLYoFQbvXxScVA1wwDA1YNhL3',
-        'mnjTaxqQPkZ2B6p7Wu6JZSPARYA3zM3ema',
-        'n4o9iQymvWxC63PTUEkoCPBG4n6HnPVgq1',
-        'n1LMnA7NwHgMnhpSZZweARxoGKpxf7JzAP',
-        'muz71XmJH6uCaycA4XbzkPU7PUYsdyY99p',
-        'mgeAXZXtYwXenBdweggu9Zd9L59a7hYCff',
-        'myw9XDtHBZPAbLaCEmTD8n2GdVjbsooCYW',
-        'mq4DYVbXZLRXLYadyt36uUZtByvigdp7Un',
-        'mo22erzGCVVWkHcYWP8ySsobbsrVsfnfpg',
-        'mofQwMizJePYGcZCCknjXKauhz9sGqHTu2',
-        'mnggKXLnD4SfHQgeyq8TemcKqW1vH6ZBoo',
-        'mpew2BdRU2f2nbTNJSFXUt6TfvR946VDvZ',
-        'mn6nqxCqGtYDz3risAZZy1iyNzwC4xQmgS',
-        'mjyVXnf9FDtEt53pCdK97varXfQuqJDyAF',
-        'mpdG4EA79cV1teNdZqiAid2phbcAzzWULJ',
-        'mjJ2qBjWPzPTK9DpTa27SPXox9YtQ13EGE',
-        'n48GAGPDWmy58kdLm2BEeeNEvuiziyHrUF',
-        'mmrptk9EiAV6JMpAdSzTpm1x5nPUBiSspr',
-        'n3kXZsXXvL6HGq9ZSeQFABEQASZvM3HBvW',
-        'mfoMdYHJjzDbf5mQ5yuzXdXyQxK7dgHraN',
-        'munWGdWbpsYhp7oRS2s7cnC5k6NnkNmbL5',
-        'mr497b9EyuUTHpA5qyeqbKhcW4qqyDjZ2s',
-        'mwCQmkWrsMBqwoP7p7cehfjwTmunMoPC94',
-        'mu12WVNG44t5zd4NxspUBcGdqf1ono5ALH',
-        'mhRgTNu2fakijcfyzF71p7sPFBcx6Pd7q8',
-        'mrAX94a4cF853aAzYpY6VUnQyFFMefjxzk',
-        'mnaGazsgrqDZQeFXV2gKuCSAL3vEM3RFBt',
-        'mi2jfXk3m3Nco5H8PJYwdKMb3JHKa5Jbs2',
-        'ms7m2HvydCA4Vp5vmhLq5RsGggBegkYCk6',
-        'mzajHzC6rRDbsRhT14mLSE9MPzwB9vtmaq',
-        'n2JR4ZjE4kbPxrTCvH8uJeHnpYVSnMymxq',
-        'n1qaSbjjum5LBiNNR5qSQ5baFuXft1uGEH',
-        'mhhDytckrmAD66d8e13oP1cJheL8QVpiyV',
-        'mn382i9PJkqmpQMLhgaVaEPjCY5DV12vYQ',
-        'msLb5NbWbKTwKmRGuTWnE6gN9N6YS5mPq7',
-        'mwEaA4UdLVvv6dZxwhNaDrgYY3phnCU2yd',
-        'mup1FnhuBShYvGpBKquAT3w9hKoxRPkYdf',
-        'mq7UjZLrsDPgCD4DBDE5fNu9LjPreMheYF',
-        'mhVu1k7fLtUujqcKmBKnPVV59n6JPS5orv',
-        'mtAMsgc8zGZyvArLzyM4JN9J27YznCydAo',
-        'mgmn8wKVzAGnfv99ectftVkpk4Rc8r3WN8',
-        'mxwxxAmv8jh2A9c9CiML8uLF3o8scjGyaS',
-        'mheUzf48VoBJnRxEJPji6ZANoLD9k8HKe6',
-        'mp1KofPbvxbTuf4ghNCBkzyRqjgAZU7AtL',
-        'mnYTsNfD2miYvE2ppSa1zsYbefHuYS7Xrx',
-        'mpEFeJ5wVTWF44A3Qk7weRLuXcci92t72w',
-        'mxKrSH1g4a8FhPGXciVrSahx8KsbYnD8dj',
-        'movUa1VDqdbx5jPUqDWFp2YSQUyxqi9iBo',
-        'mtKJB4KntsQDCZoqTkUJjW5i96wWJwj2uZ',
-        'mkbC6HCzGRJgKyQnmS5S4FughkhLsbZH7d',
-        'moHDnVz3CifuSxKNtYmMmjgrUPQEvBEeSD',
-        'muGPiwoS1j5z9PajQKxQCxc3ZBUqQr546H',
-        'migDCkZgphW6kSYpqF2e9mZRK22nfGpddK',
-        'n3rshKpA58VMXvt9BoZyoFVhs32xBfNjUm',
-        'mwAJ6JcqjhznzkczoWScmshjuFtETdV16B',
-        'mm2HRQkhe7o8ieQ9CsAo2KsjNdbEvMabsa',
-        'mgB9ZEzaaAw45Zn963waV786dZfyU5uqvH',
-        'mq8WLsQVzKqLqr83v37oZihSNv8W1EiKZC',
-        'myrQeVU4sYzToBi7L6T9wuGwUMiK1mUwLV',
-        'mmis2EFxWZK5rvd3iMQZQ48nLQgjGa6BJs',
-        'mjgE1b3CiZnYAu3wMjsDuzhXGLGU6fGbFz',
-        'mpnW6yRQrmA1qKLtA6KCi9Ht8vD3gjzdDr',
-        'muvNU4PdUGDbJT1Ng7YMqZ9RrNXnCUoN6x',
-        'mneKPz7Huv7RXP4X8Z5FLcWggfd4kfmgtz',
-        'mtK5oosu1iHnHmcNvLYGUDabjEqG5mDnd1',
-        'mhBETVq6FULQ7kRsMza5TLi9mqn4Jzu9jd',
-        'mpCRhcbDqyQRCLK9eyETGyJ3jUBQZR5DSR',
-        'moJTtpcVmx829y67tgcFVpFNE4MbnqM3Rx',
-        'n1VseQZwDaQzwvFSbA8qazULEUrJWBjPu5',
-        'mk9GQEHYGR3qEbbpjTSttGGR96Wn8ooJji',
-        'mmhYtYWbXDv4sRKNzUsaG8vcetsR365xe4',
-        'mpcwA2fMM5mE2FpBfBjeH3Lp85Atax7uoM',
-        'mkGMQRPo9uj1MWyyn8D6gngHsdZq3GgQG8',
-        'mmpnF46R6a5pAyJmh7CgS3NJFf7n6qnRtS',
-        'mvKgXtC5sBDG6YNVzdu1eaczP1HZEgd8ih',
-        'mmsAmD4iT7NdfroUu2Aw4btHEwsm1VvKk3',
-        'msd2xNUXfsW2nmHCUsdEhhorr9prbGpBgK',
-        'mws9YbeY5uZg6chPjuRkatyMys25uBEAWY',
-        'n12uFjnFn5nEavSiYeoNvhe2FqhsukzWZY',
-        'n4XW5mFiKS2m4nBh2r9fCnkpAkPZLho4Lz',
-        'miTxevS3TrBdMzNysMF9eiotn2shuQsfPb',
-        'mm7gyXTQaQ1GEo9ETRT1JY4iTaYGdHJMnD',
-        'mtsb72rAyCQCYG49zpm9LmBNRbnc7vAC1Q',
-        'mvNqxLo1mXWjzdHJ792tfHKBU2YiZQAen1',
-        'mxHpfZCTKrhePzmHDZtf2q5x4VmoPwh4f3',
-        'mxgWxkDmeAjWBDfqcPVMTUMGf5nZ8pFR9M',
-        'mnJiViHdGC9fy6yCKYpXgW1Rnz1RRNJBDi',
-        'mzJmD34bbJXjRFUqpHFca7pXo3ANKrBu9K',
-        'mystAU9g87d7YfmnrLa618D8PMUHsnoE1c',
-        'msfMXapmw7EmxhS9iaSC3FBAH2AyNVXbLX',
-        'mgmCg3pafUcW5YdnMa7oP9s2mnRW7JsQsj',
-        'mipVtoDqYptjqYkB6zRSg5DfvbNhDqoJon',
-        'mg5DG5pdwGkC29Wws3L7uWZXeX56HJLhLB',
-        'mr5mMz3mdeKiWErrzvz9LuovY3dyQYYgRZ',
-        'mtjJbeeJWRNJe3Exb4dWLJMzHwNrNbvm79',
-        'mkE9fWGjgGiFNN1fLHN7WyBruCFrrWPjfg',
-        'mjUKZGiUxPMH3kN2gyeMpSHJuM3s4iKt3L',
-        'mfe7zud9Fs7QPUJ8mJX1TRooshzNh5J9db',
-        'mkduQibyRf1DDVvDnzdyNwbYhbnAK7J8ED',
-        'mngaK9SFSCZ7tUdpVYiP1saspZ5LBHkPRS',
-        'n27xcroxoqndko8Vzh4suJXFTbg1appVkx',
-        'mi47DC3g97M8isdp513cGGrdP5t9Y5hs6Q',
-        'mnA18hDf7hPWjbyFxdrXAqGYszEZwuahBu',
-        'mkBdFtVyoFcAW9rgX18TpHLaScrFKsnbXm',
-        'moHFEu57VGKDzsfhk1BGmCCuDH3nR8hWWX',
-        'mvRSJicUmHrH47FdKVGh27xLyKwymhfeGb',
-        'mkzUJJufpw39RXqiWTKwQQj1B4C9MHiFJW',
-        'mo7WwSKgkia4CgeCSrSZ74NMwQLGrMWNDp',
-        'mhj2SniYDCibr8Pga1YNKDAtctUspXRzgo',
-        'mhH49jiAEwp4YbuNZqcYR5e9zSmPXHaEbo',
-        'mmAmp3hsqRhaczoJHf5QabZYtwyopm8yGV',
-        'mvC3bsuf4XH8nTRdET2vQAmofLa8eDwjGS',
-        'mzeFV4MBVsANzrL3ArcLe8X7AMyxEtpxcd',
-        'n3go8pEYjciR9izUNku2L2o4uRXWEt35PH',
-        'mwFCYXBF6ThcFWRpSjEyx9BjVS4GwmXreY',
-        'mucvYPyF36YUbjVd3UzZaxrtU4LhJzf8fs',
-        'mtDq78VY62YLivAGXRhafWVuKMjmY88S6U',
-        'muzmVjvM14sAi51qhRTcRza3n4Vq7mBuD6',
-        'mhpvu9Jp1DX88smTdTAocrRDPMm9YF8H5q',
-        'mhAV7PD5PRfbYFy8MWntSdMVUwZrjLPBRe',
-        'mue6BtXdNxZD56cBeDH54CYtbhvqvbppok',
-        'mhGEgApkSciVo7TUjw4n86AwiG3Tix9GwS',
-        'mrnb6yHoFmycQWs3VsxGGmfcdToDnDDUir',
-        'mm5ixx5wm55NgchmNDALUGE1Thc4hjFxSw',
-        'n3V2KcmyY8to4zWzoekKPUFZG4pAXdg1ZF',
-        'n1PBjAnFyW1PW81DpBa7eitBff4L4do2Un',
-        'mgH1XvPqNaVHdPuCMh4jUoQiZEdF3AyrYx',
-        'mzKJHj4WiSqsuWGzpj2NBbD3CGhTfrFTtw',
-        'mq6W6JCnFnKuPvJgmWYxLTZ5cQ9HjJbSBr',
-        'mma3z41LE1JKmJ7ppD3vsLSGMGuYcprsBD',
-        'mgeE9pVPySyFCnTNsytF6zgJRxWmpoFdxu',
-        'mpYP7tc8YQWT3eotxzZXE8WdEmRBC41q8f',
-        'mjTuCxYeDsA8vaRyLvsusfrf8ck7xxy7AH',
-        'mgX3VH2kTbNVX7wLbwNbJTaA76o8kjtzvY',
-        'msLqkmQKG35x2fzdPuSvdH9AkpPdCYcZNp',
-        'mtRyF6XLUiuPxNhzK8xBDavEPF76ur4YSk',
-        'mtPt3sEpGT32fyw4Z7wLwkE4U4E7Hosxv3',
-        'mqPgL4B8CbGfoHFuTcKp533kjuKbe7sxMf',
-        'mjJFBKScuSvNJZZWNSCutxZRq6FeeewsXC',
-        'mzxNxeiYL57aKHkotTXLLxVE4QajcH7MHT',
-        'mwVxPNEgP24EVGbNGVUCmSDfUbE3kuob46',
-        'n4HUC1skFayYMeofkBuR6gujFt8ZxuxDin',
-        'mveqTAUmHG7gZQ7SPKMJpUJheLYjTpRoV5',
-        'mjq3hZsTt6Jz8VZQXzBBDQhWgYMdV8VZ9d',
-        'mfeFzd7V2SAKmPAcvqUNyv79p9QddeQ7cP',
-        'mk5BqR74xDwL7fB143jby5JhUx2E4taHa9',
-        'n4q3cVw5DRSEvvFRmQXgUiNkUUVxbLNux3',
-        'mvQgwfu2TTddAYwYq9BAzKZJFGR94tVCRG',
-        'mzXHrmh7ZoranD5fqHxEgid35Ry8AGNbSb',
-        'mjWFE6JLQspmNhRsqGvAtBLee59PPsWXWK',
-        'mpLqUfwE8Qx4vJKGgWNiaGn3fS82bxxvkB',
-        'mmrHDRXtqTBjPXerQ5ZtycmTDGKVYLynLk',
-        'n4VRpSeS45RduFdAxgi5Xcx7RpXY5VWyPn',
-        'mvaobtdSWbsNoeVVuJ92QwGB53Vi1YY8JP',
-        'mujhwXfAUAaUM2wYHAVgAJRaLwvFougRx1',
-        'mhDjh7KqPEjpUgMxvQz8vsoTh7zvtgX64h',
-        'myGsQFac89ZmDfJ99ZEbhhXNzhDBF8EvdG',
-        'mvVUxg1qLBpYqFGRvccF14VuMM6ou4e7ho',
-        'n2EwMzuXQbnSJTKriL6DEJXdqrEzBGeCxV',
-        'msJgdCw42ma9dP8YCvf5cxrZonxvisLL9x',
-        'mxuMnCq3aYHawGYGCdGgwGP7GKi18xNVm5',
-        'mgmVaqjfZPAdXzvyqQ16MUtW4psfzyJo26',
-        'mg4T9FxT69WZKA7quXYRHMAoNqTfkCheEX',
-        'moxUEDp16EBtA3v2osjDKzHKn4cEQE7qmi',
-        'mqyn4ngGYxEVWdksPV1kV3fBmgt6uBHsXT',
-        'moDE3ziW84CKEsJyco3N6Y8JphVrdifzrC',
-        'mzfZXYdjESSGvtEjoZxgYFYdEzGwew4n9M'
-      ], function(err, results) {
-        console.log('results');
-        console.log(results);
-        done(err);
-      });
+      addresses
+        .summary(
+          'mpNDUWcDcZw1Teo3LFHvr8usNdwDLKdTaY'
+        )
+        .then(function(res) {
+          expect(res).to.exist;
+          expect(res).to.has.property('address', 'mpNDUWcDcZw1Teo3LFHvr8usNdwDLKdTaY');
+          done();
+        })
+        .catch(done);
     });
   });
+
+  describe('transactions', function() {
+    it('should return transactions', function(done) {
+      addresses
+        .transactions(
+          'mpNDUWcDcZw1Teo3LFHvr8usNdwDLKdTaY'
+        )
+        .then(function(res) {
+          expect(res).to.be.instanceof(Array);
+          expect(res).has.length(2);
+          expect(res[0]).to.has.property('blockId', '00000000000010efb93b48b18d489d9e959997dd4f9e2acaf3191ad9ec1aa3e4');
+          expect(res[0]).to.has.property('txId', '4979a0b69703f888dc5936a4be039dabb976fae7d45604d57b5fad35b3c94200');
+          expect(res[1]).to.has.property('blockId', '00000000a1e890e1c2cfe6edf939b83b9a4d6fd4b066324b84f67660215887b0');
+          expect(res[1]).to.has.property('txId', 'ffd316b0c4feb9d29c61c3734fcde0167600441e560931c8c7267a9de3d9e29a');
+          done();
+        })
+        .catch(done);
+    });
+  });
+
+  describe('unspents', function() {
+    it('should return transactions', function(done) {
+      addresses
+        .unspents(
+          'mpNDUWcDcZw1Teo3LFHvr8usNdwDLKdTaY'
+        )
+        .then(function(res) {
+          expect(res).to.be.instanceof(Array);
+          expect(res).has.length(2);
+          expect(res[0]).to.has.property('address', 'mpNDUWcDcZw1Teo3LFHvr8usNdwDLKdTaY');
+          expect(res[0]).to.has.property('txId', 'ffd316b0c4feb9d29c61c3734fcde0167600441e560931c8c7267a9de3d9e29a');
+          expect(res[1]).to.has.property('address', 'mpNDUWcDcZw1Teo3LFHvr8usNdwDLKdTaY');
+          expect(res[1]).to.has.property('txId', '4979a0b69703f888dc5936a4be039dabb976fae7d45604d57b5fad35b3c94200');
+          done();
+        })
+        .catch(done);
+    });
+  });
+
+  after(setupFixtures.down);
 });
