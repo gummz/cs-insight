@@ -41,6 +41,22 @@ describe('Addresses', function() {
           done();
         });
     });
+
+    it('should works with group of addresses as well', function(done) {
+      addresses
+        .summary([
+          '2NBXcxopF9gs8sg9KfgPtKRsVZ6HyWVPHQY',
+          'mpNDUWcDcZw1Teo3LFHvr8usNdwDLKdTaY'
+        ])
+        .then(function(res) {
+          expect(res).to.be.instanceof(Array);
+          expect(res).has.length(2);
+          expect(res[0]).to.has.property('address', '2NBXcxopF9gs8sg9KfgPtKRsVZ6HyWVPHQY');
+          expect(res[1]).to.has.property('address', 'mpNDUWcDcZw1Teo3LFHvr8usNdwDLKdTaY');
+          done();
+        })
+        .catch(done);
+    });
   });
 
   describe('transactions', function() {
