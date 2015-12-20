@@ -16,7 +16,7 @@ describe('Addresses', function() {
 
   before(setupFixtures.lightUp);
 
-  describe('summary', function() {
+  describe.only('summary', function() {
     it('should return address', function(done) {
       addresses
         .summary(
@@ -28,6 +28,18 @@ describe('Addresses', function() {
           done();
         })
         .catch(done);
+    });
+
+    it('should return error when address is not valid', function(done) {
+      addresses
+        .summary('XXXX')
+        .then(function() {
+          done('does not fail');
+        })
+        .catch(function(err) {
+          expect(err.res.message).to.equal('XXXX is not a valid address');
+          done();
+        });
     });
   });
 
