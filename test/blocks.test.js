@@ -29,6 +29,19 @@ describe('Blocks', function() {
         })
         .catch(done);
     });
+
+    it('should fail on wrong block it', function(done) {
+      blocks
+        .get('XXXX')
+        .then(function(res) {
+          done('does not fail');
+        })
+        .catch(function(err) {
+          expect(err).to.exist;
+          expect(err.res).to.exist;
+          done();
+        });
+    });
   });
 
   describe('latest', function() {
