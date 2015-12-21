@@ -31,7 +31,7 @@ describe('Transactions', function() {
     it('should fail on incorrect transaction id', function(done) {
       transactions
         .get('XXXX')
-        .then(function(res) {
+        .then(function() {
           done('does not fail');
         })
         .catch(function(err) {

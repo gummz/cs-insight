@@ -37,7 +37,6 @@ describe('Blocks', function() {
           '00000000a1e890e1c2cfe6edf939b83b9a4d6fd4b066324b84f67660215887b0'
         ])
         .then(function(res) {
-
           expect(res).to.be.instanceof(Array);
           expect(res).has.length(2);
           expect(res[0]).to.has.property('blockId', '00000000000010efb93b48b18d489d9e959997dd4f9e2acaf3191ad9ec1aa3e4');
