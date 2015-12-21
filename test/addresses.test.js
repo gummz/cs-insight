@@ -42,7 +42,7 @@ describe('Addresses', function() {
         });
     });
 
-    it('should works with group of addresses as well', function(done) {
+    it('should be able to request group of addresses', function(done) {
       addresses
         .summary([
           '2NBXcxopF9gs8sg9KfgPtKRsVZ6HyWVPHQY',
@@ -97,7 +97,6 @@ describe('Addresses', function() {
           'mpNDUWcDcZw1Teo3LFHvr8usNdwDLKdTaY'
         ])
         .then(function(res) {
-          console.log('res', res);
           expect(res).to.be.instanceof(Array);
           expect(res).has.length(3);
           expect(res[0]).to.has.property('blockId', '00000000000007dc622b16ab6698ad580c69e7e21c59bc9474418e85c6f3489a');
@@ -141,6 +140,30 @@ describe('Addresses', function() {
           expect(err.res).to.exist;
           done();
         });
+    });
+
+    it('should be able to request group of addresses', function(done) {
+      addresses
+        .unspents([
+          'mpNDUWcDcZw1Teo3LFHvr8usNdwDLKdTaY',
+          'mvJCbQvE6DgVAECMwDprASP3NMwuU53Eie'
+        ])
+        .then(function(res) {
+          expect(res).to.be.instanceof(Array);
+          expect(res).has.length(3);
+
+          expect(res[0]).to.has.property('address', 'mpNDUWcDcZw1Teo3LFHvr8usNdwDLKdTaY');
+          expect(res[0]).to.has.property('txId', 'ffd316b0c4feb9d29c61c3734fcde0167600441e560931c8c7267a9de3d9e29a');
+
+          expect(res[1]).to.has.property('address', 'mpNDUWcDcZw1Teo3LFHvr8usNdwDLKdTaY');
+          expect(res[1]).to.has.property('txId', '4979a0b69703f888dc5936a4be039dabb976fae7d45604d57b5fad35b3c94200');
+
+          expect(res[2]).to.has.property('address', 'mvJCbQvE6DgVAECMwDprASP3NMwuU53Eie');
+          expect(res[2]).to.has.property('txId', '41017e25bed3b740508fc10286ffd363935698bd541ac8c43d8fad52cde25220');
+
+          done();
+        })
+        .catch(done);
     });
   });
 
