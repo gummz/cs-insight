@@ -14,7 +14,7 @@ describe('Addresses', function() {
     addresses = api.addresses;
   });
 
-  before(setupFixtures.lightUp);
+  before(setupFixtures.up);
 
   describe('summary', function() {
     it('should return address', function(done) {

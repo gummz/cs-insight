@@ -14,7 +14,7 @@ describe('Blocks', function() {
     blocks = api.blocks;
   });
 
-  before(setupFixtures.lightUp);
+  before(setupFixtures.up);
 
   describe('get', function() {
     it('should return block', function(done) {

@@ -15,7 +15,7 @@ describe('Transactions', function() {
     transactions = api.transactions;
   });
 
-  before(setupFixtures.lightUp);
+  before(setupFixtures.up);
 
   describe('get', function() {
     it('should empty value if id is not passed', function(done) {

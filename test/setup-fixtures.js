@@ -1,46 +1,39 @@
 var _ = require('lodash');
 var nock = require('nock');
 
-var addresses = require('./fixtures/full/addresses.json');
-var addressesTxs = require('./fixtures/full/addresses.txs.json');
-var addressesUtxo = require('./fixtures/full/addresses.utxo.json');
-var blocks = require('./fixtures/full/blocks.json');
-var rawTransactions = require('./fixtures/full/transactions.rawtx.json');
-var transactions = require('./fixtures/full/transactions.tx.json');
-
-var lightAddresses = require('./fixtures/light/addresses.json');
-var lightAddressesTxs = require('./fixtures/light/addresses.txs.json');
-var lightAddressesUtxo = require('./fixtures/light/addresses.utxo.json');
-var lightBlocks = require('./fixtures/light/blocks.json');
-var lightRawTransactions = require('./fixtures/light/transactions.rawtx.json');
-var lightTransactions = require('./fixtures/light/transactions.tx.json');
+var addresses = require('./fixtures/addresses.json');
+var addressesTxs = require('./fixtures/addresses.txs.json');
+var addressesUtxo = require('./fixtures/addresses.utxo.json');
+var blocks = require('./fixtures/blocks.json');
+var rawTransactions = require('./fixtures/transactions.rawtx.json');
+var transactions = require('./fixtures/transactions.tx.json');
 
 var root = nock('https://test-insight.bitpay.com');
 
 module.exports = {
-  lightUp: function() {
-    _.forEach(lightAddresses, function(addr, id) {
+  up: function() {
+    _.forEach(addresses, function(addr, id) {
       root
         .get('/api/addr/' + id)
         .reply(200, addr)
         .persist();
     });
 
-    _.forEach(lightAddressesTxs, function(txs, id) {
+    _.forEach(addressesTxs, function(txs, id) {
       root
         .get('/api/addrs/' + id + '/txs')
         .reply(200, txs)
         .persist();
     });
 
-    _.forEach(lightAddressesUtxo, function(txs, id) {
+    _.forEach(addressesUtxo, function(txs, id) {
       root
         .get('/api/addrs/' + id + '/utxo')
         .reply(200, txs)
         .persist();
     });
 
-    _.forEach(lightBlocks, function(block, id) {
+    _.forEach(blocks, function(block, id) {
       root
         .get('/api/block/' + id)
         .reply(200, block)
@@ -49,17 +42,17 @@ module.exports = {
 
     root
       .get('/api/blocks')
-      .reply(200, {blocks: _.values(lightBlocks)})
+      .reply(200, {blocks: _.values(blocks)})
       .persist();
 
-    _.forEach(lightRawTransactions, function(raw, id) {
+    _.forEach(rawTransactions, function(raw, id) {
       root
         .get('/api/rawtx/' + id)
         .reply(200, raw)
         .persist();
     });
 
-    _.forEach(lightTransactions, function(tx, id) {
+    _.forEach(transactions, function(tx, id) {
       root
         .get('/api/tx/' + id)
         .reply(200, tx)
@@ -98,54 +91,6 @@ module.exports = {
       .persist();
   },
 
-  up: function() {
-    _.forEach(addresses, function(address) {
-      root
-        .get('/api/addr/' + address.addrStr)
-        .reply(200, address)
-        .persist();
-    });
-
-    _.forEach(addressesTxs, function(address, key) {
-      root
-        .get('/api/addrs/' + key + '/txs')
-        .reply(200, address)
-        .persist();
-    });
-
-    _.forEach(addressesUtxo, function(address, key) {
-      root
-        .get('/api/addrs/' + key + '/utxo')
-        .reply(200, address)
-        .persist();
-    });
-
-    _.forEach(rawTransactions, function(rawtx, key) {
-      root
-        .get('/api/rawtx/' + key)
-        .reply(200, rawtx)
-        .persist();
-    });
-
-    _.forEach(transactions, function(tx, key) {
-      root
-        .get('/api/tx/' + key)
-        .reply(200, tx)
-        .persist();
-    });
-
-    _.forEach(blocks, function(block, key) {
-      root
-        .get('/api/block/' + key)
-        .reply(200, block)
-        .persist();
-    });
-
-    root
-      .get('/api/blocks')
-      .reply(200, {blocks: _.values(blocks)})
-      .persist();
-  },
   down: function() {
     nock.cleanAll();
   }
