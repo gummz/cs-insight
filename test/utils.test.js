@@ -52,12 +52,12 @@ describe('utils', function() {
         .get('/missed-cat-poems/1')
         .reply(200, 'Hello World!');
 
-      batchGetRequest('http://google.com/missed-cat-poems/', 1, {retry: 5, delayBeforeRetry: 0})
+      batchGetRequest('http://google.com/missed-cat-poems/', '1', {retry: 5, delayBeforeRetry: 0})
         .then(function(res) {
           done('got result', res);
         })
         .catch(function(err) {
-          expect(err.item).to.equal(1);
+          expect(err.item).to.equal('1');
           expect(err.res.code).to.equal('ECONNRESET');
           done();
         });
@@ -85,7 +85,28 @@ describe('utils', function() {
         .get('/url/2')
         .reply(200, 'Hello World 2!');
 
-      batchGetRequest('http://some.org/url/', [1, 2])
+      batchGetRequest('http://some.org/url/', [1, 2], {
+        maxChunk: 1
+      })
+        .then(function(res) {
+          expect(res[0]).to.equal('Hello World 1!');
+          expect(res[1]).to.equal('Hello World 2!');
+          done();
+        })
+        .catch(done);
+    });
+
+    it('should do single request GET http://some.org/url/:id1,id2 and return Promise on successful response', function(done) {
+      nock('http://some.org')
+        .get('/url/' + encodeURIComponent('1,2'))
+        .reply(200, [
+          'Hello World 1!',
+          'Hello World 2!'
+        ]);
+
+      batchGetRequest('http://some.org/url/', [1, 2], {
+        maxChunk: 10
+      })
         .then(function(res) {
           expect(res[0]).to.equal('Hello World 1!');
           expect(res[1]).to.equal('Hello World 2!');
@@ -129,12 +150,12 @@ describe('utils', function() {
         .get('/url/123456')
         .reply(404, 'Not found');
 
-      batchGetRequest('http://some.org/url/', 123456)
+      batchGetRequest('http://some.org/url/', '123456')
         .then(function() {
           done('should reject Promise');
         })
         .catch(function(err) {
-          expect(err.item).to.equal(123456);
+          expect(err.item).to.equal('123456');
           expect(err.url).to.equal('http://some.org/url/');
           expect(err.res.data).to.equal('Not found');
           done();
@@ -156,16 +177,16 @@ describe('utils', function() {
 
     it('should do parametric request with multiple ids', function(done) {
       nock('http://google.com')
-        .get('/0/url')
-        .reply(200, 'Hello World 0!');
-      nock('http://google.com')
-        .get('/1/url')
-        .reply(200, 'Hello World 1!');
-      nock('http://google.com')
-        .get('/2/url')
-        .reply(200, 'Hello World 2!');
+        .get('/' + encodeURIComponent('0,1,2') + '/url')
+        .reply(200, [
+          'Hello World 0!',
+          'Hello World 1!',
+          'Hello World 2!'
+        ]);
 
-      batchGetRequest('http://google.com/:id/url', [{id: 0}, {id: 1}, {id: 2}])
+      batchGetRequest('http://google.com/:id/url', [{id: '0'}, {id: '1'}, {id: '2'}], {
+        maxChunk: 10
+      })
         .then(function(res) {
           expect(res[0]).to.equal('Hello World 0!');
           expect(res[1]).to.equal('Hello World 1!');

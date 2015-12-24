@@ -23,7 +23,6 @@
     "path-to-regexp": "^1.2.1"
   },
   "devDependencies": {
-    "cb-tester": "git://github.com/hyzhak/cb-tester",
     "chai": "^3.4.1",
     "coveralls": "^2.11.2",
     "eslint": "^1.10.1",
@@ -31,7 +30,7 @@
     "eslint-plugin-mocha": "^1.1.0",
     "istanbul": "^0.3.2",
     "mocha": "^1.21.5",
-    "mockery": "^1.4.0",
-    "nock": "^3.5.0"
+    "nock": "git+https://github.com/hyzhak/nock.git",
+    "sinon": "^1.17.2"
   }
 }
