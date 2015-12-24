@@ -30,7 +30,7 @@
     "eslint-plugin-mocha": "^1.1.0",
     "istanbul": "^0.3.2",
     "mocha": "^1.21.5",
-    "nock": "^3.3.2",
+    "nock": "git+https://github.com/hyzhak/nock.git",
     "sinon": "^1.17.2"
   }
 }

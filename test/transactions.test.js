@@ -110,7 +110,7 @@ describe('Transactions', function() {
         .catch(done);
     });
 
-    it('should return transaction summary', function(done) {
+    it('should be able to request group of transaction summary', function(done) {
       transactions
         .summary([
           '4979a0b69703f888dc5936a4be039dabb976fae7d45604d57b5fad35b3c94200',

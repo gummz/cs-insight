@@ -10,54 +10,47 @@ var transactions = require('./fixtures/transactions.tx.json');
 
 var root = nock('https://test-insight.bitpay.com');
 
+function getItemByUri(uri, regex, list) {
+  var res = regex.exec(uri);
+  if (!res || res.length === 0) {
+    return [];
+  }
+
+  return _.compact(decodeURIComponent(res[1])
+    .split(',')
+    .map(function(id) {
+      return list[id];
+    }));
+}
+
+function mockEndpoint(pattern, items) {
+  root
+    .get(function(uri) {
+      return getItemByUri(uri, pattern, items).length > 0;
+    })
+    .reply(function(uri) {
+      var l = getItemByUri(uri, pattern, items);
+      if (l.length === 1) {
+        return l[0];
+      }
+      return l;
+    });
+}
+
 module.exports = {
   up: function() {
-    _.forEach(addresses, function(addr, id) {
-      root
-        .get('/api/addr/' + id)
-        .reply(200, addr)
-        .persist();
-    });
-
-    _.forEach(addressesTxs, function(txs, id) {
-      root
-        .get('/api/addrs/' + id + '/txs')
-        .reply(200, txs)
-        .persist();
-    });
-
-    _.forEach(addressesUtxo, function(txs, id) {
-      root
-        .get('/api/addrs/' + id + '/utxo')
-        .reply(200, txs)
-        .persist();
-    });
-
-    _.forEach(blocks, function(block, id) {
-      root
-        .get('/api/block/' + id)
-        .reply(200, block)
-        .persist();
-    });
+    mockEndpoint(/^\/api\/addr\/(.*)$/, addresses);
+    mockEndpoint(/^\/api\/addrs\/(.*)\/txs$/, addressesTxs);
+    mockEndpoint(/^\/api\/addrs\/(.*)\/utxo$/, addressesUtxo);
+    mockEndpoint(/^\/api\/block\/(.*)$/, blocks);
 
     root
       .get('/api/blocks')
       .reply(200, {blocks: _.values(blocks)})
       .persist();
 
-    _.forEach(rawTransactions, function(raw, id) {
-      root
-        .get('/api/rawtx/' + id)
-        .reply(200, raw)
-        .persist();
-    });
-
-    _.forEach(transactions, function(tx, id) {
-      root
-        .get('/api/tx/' + id)
-        .reply(200, tx)
-        .persist();
-    });
+    mockEndpoint(/^\/api\/rawtx\/(.*)$/, rawTransactions);
+    mockEndpoint(/^\/api\/tx\/(.*)$/, transactions);
 
     root
       .post('/api/tx/send', {
