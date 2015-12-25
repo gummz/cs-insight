@@ -39,18 +39,18 @@ function mockEndpoint(pattern, items) {
 
 module.exports = {
   up: function() {
-    mockEndpoint(/^\/api\/addr\/(.*)$/, addresses);
-    mockEndpoint(/^\/api\/addrs\/(.*)\/txs$/, addressesTxs);
-    mockEndpoint(/^\/api\/addrs\/(.*)\/utxo$/, addressesUtxo);
-    mockEndpoint(/^\/api\/block\/(.*)$/, blocks);
+    mockEndpoint(/^\/api\/addrs\/([\w%]*)$/, addresses);
+    mockEndpoint(/^\/api\/addrs\/([\w%]*)\/txs$/, addressesTxs);
+    mockEndpoint(/^\/api\/addrs\/([\w%]*)\/utxo$/, addressesUtxo);
+    mockEndpoint(/^\/api\/block\/([\w%]*)$/, blocks);
 
     root
       .get('/api/blocks')
       .reply(200, {blocks: _.values(blocks)})
       .persist();
 
-    mockEndpoint(/^\/api\/rawtx\/(.*)$/, rawTransactions);
-    mockEndpoint(/^\/api\/tx\/(.*)$/, transactions);
+    mockEndpoint(/^\/api\/rawtxs\/([\w%]*)$/, rawTransactions);
+    mockEndpoint(/^\/api\/txs\/([\w%]*)$/, transactions);
 
     root
       .post('/api/tx/send', {
