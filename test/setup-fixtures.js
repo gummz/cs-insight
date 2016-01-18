@@ -37,6 +37,16 @@ function mockEndpoint(pattern, items) {
     });
 }
 
+_.forEach(blocks, function(block, key) {
+  block.tx = block.tx.map(function(id) {
+    var obj = rawTransactions[id];
+    return {
+      id: id,
+      raw: obj && obj.rawtx
+    };
+  });
+});
+
 module.exports = {
   up: function() {
     mockEndpoint(/^\/api\/addrs\/([\w%]*)$/, addresses);
