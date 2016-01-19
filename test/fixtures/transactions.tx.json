@@ -1,57 +1,4 @@
 {
-  "4979a0b69703f888dc5936a4be039dabb976fae7d45604d57b5fad35b3c94200": {
-    "txid": "4979a0b69703f888dc5936a4be039dabb976fae7d45604d57b5fad35b3c94200",
-    "version": 1,
-    "locktime": 0,
-    "vin": [
-      {
-        "txid": "b465897ae9b112e2e821ad52a76169aec128dbbf3396335aaf3cbdce6cf8906e",
-        "vout": 1,
-        "scriptSig": {
-          "asm": "3045022100d1eb848df7594a5f9b697dea0bf733c8ec87dec2b63142e4b572b07f2f09d12702200f6b124db6689e645f39e57d6cffcfb5f5869c089c4f1922ef6e6cfe3f07e8e201 037ce0c786277fafc38e2e2d49b1be36f02a360ba4a2dd58cf977784975a573fb6",
-          "hex": "483045022100d1eb848df7594a5f9b697dea0bf733c8ec87dec2b63142e4b572b07f2f09d12702200f6b124db6689e645f39e57d6cffcfb5f5869c089c4f1922ef6e6cfe3f07e8e20121037ce0c786277fafc38e2e2d49b1be36f02a360ba4a2dd58cf977784975a573fb6"
-        },
-        "sequence": 4294967295,
-        "n": 0,
-        "addr": "mkjS5YDUi3mVCQPQYhNKZhpW2bKkthyNsF",
-        "valueSat": 894223221000,
-        "value": 8942.23221,
-        "doubleSpentTxID": null
-      }
-    ],
-    "vout": [
-      {
-        "value": "0.39000000",
-        "n": 0,
-        "scriptPubKey": {
-          "hex": "76a91461120f6e004c7a2e20ecdedf461f1eb032c2e5c388ac",
-          "asm": "OP_DUP OP_HASH160 61120f6e004c7a2e20ecdedf461f1eb032c2e5c3 OP_EQUALVERIFY OP_CHECKSIG",
-          "addresses": ["mpNDUWcDcZw1Teo3LFHvr8usNdwDLKdTaY"],
-          "type": "pubkeyhash"
-        }
-      },
-      {
-        "value": "8941.84221000",
-        "n": 1,
-        "scriptPubKey": {
-          "hex": "76a9140fe1355e31a061b2508919578b6f8c60dd2f29cf88ac",
-          "asm": "OP_DUP OP_HASH160 0fe1355e31a061b2508919578b6f8c60dd2f29cf OP_EQUALVERIFY OP_CHECKSIG",
-          "addresses": ["mgxvDgz4vyneuYUfgbSyWBmcZPnDgyNAFY"],
-          "type": "pubkeyhash"
-        },
-        "spentTxId": "9021874091d0c8e1795a985fe4d5c0c198dc0053a5e4ed51d4b3949533716168",
-        "spentIndex": 0
-      }
-    ],
-    "blockhash": "00000000000010efb93b48b18d489d9e959997dd4f9e2acaf3191ad9ec1aa3e4",
-    "confirmations": 230240,
-    "time": 1431467128,
-    "blocktime": 1431467128,
-    "valueOut": 8942.23221,
-    "size": 226,
-    "valueIn": 8942.23221,
-    "fees": 0
-  },
   "ffd316b0c4feb9d29c61c3734fcde0167600441e560931c8c7267a9de3d9e29a": {
     "txid": "ffd316b0c4feb9d29c61c3734fcde0167600441e560931c8c7267a9de3d9e29a",
     "version": 1,
@@ -100,6 +47,7 @@
     "confirmations": 352331,
     "time": 1408065294,
     "blocktime": 1408065294,
+    "blockheight": 274302,
     "valueOut": 10.27819979,
     "size": 257,
     "valueIn": 10.27829979,
@@ -267,6 +215,7 @@
     "confirmations": 230572,
     "time": 1431467128,
     "blocktime": 1431467128,
+    "blockheight": 396393,
     "valueOut": 8942.23221,
     "size": 226,
     "valueIn": 8942.23221,
