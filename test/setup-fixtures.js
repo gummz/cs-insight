@@ -37,7 +37,7 @@ function mockEndpoint(pattern, items) {
     });
 }
 
-_.forEach(blocks, function(block, key) {
+_.forEach(blocks, function(block) {
   block.tx = block.tx.map(function(id) {
     var obj = rawTransactions[id];
     return {
