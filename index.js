@@ -21,9 +21,9 @@ function Wrapper(network, proxyURL, baseURL) {
   });
 
   // end points
-  this.blocks = new Blocks(BASE_URL, proxyURL);
-  this.transactions = new Transactions(BASE_URL, proxyURL, this.blocks);
   this.addresses = new Addresses(BASE_URL, proxyURL);
+  this.blocks = new Blocks(BASE_URL, proxyURL);
+  this.transactions = new Transactions(BASE_URL, proxyURL);
 
   this.apiURL = BASE_URL;
   this.network = network;
