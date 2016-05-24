@@ -1,11 +1,11 @@
 {
   "name": "cs-insight",
-  "version": "3.1.1",
+  "version": "3.1.2",
   "description": "common-blockchain-blockr",
   "main": "./src/index.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/skyjam/cs-insight.git"
+    "url": "https://github.com/CoinSpace/cs-insight.git"
   },
   "license": "MIT",
   "scripts": {
