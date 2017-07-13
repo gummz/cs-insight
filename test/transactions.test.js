@@ -47,8 +47,8 @@ describe('Transactions', function() {
         .get('4979a0b69703f888dc5936a4be039dabb976fae7d45604d57b5fad35b3c94200')
         .then(function(res) {
           expect(res).to.exist;
-          expect(res).to.has.property('blockId', '00000000000010efb93b48b18d489d9e959997dd4f9e2acaf3191ad9ec1aa3e4');
-          expect(res).to.has.property('blockHeight', 396393);
+          expect(res).to.has.property('txId', '4979a0b69703f888dc5936a4be039dabb976fae7d45604d57b5fad35b3c94200');
+          expect(res).to.has.property('confirmations', 230572);
           done();
         })
         .catch(done);
@@ -63,10 +63,11 @@ describe('Transactions', function() {
         .then(function(res) {
           expect(res).to.be.instanceof(Array);
           expect(res).has.length(2);
-          expect(res[0]).to.has.property('blockId', '00000000000010efb93b48b18d489d9e959997dd4f9e2acaf3191ad9ec1aa3e4');
-          expect(res[0]).to.has.property('blockHeight', 396393);
-          expect(res[1]).to.has.property('blockId', '00000000a1e890e1c2cfe6edf939b83b9a4d6fd4b066324b84f67660215887b0');
-          expect(res[1]).to.has.property('blockHeight', 274302);
+
+          expect(res[0]).to.has.property('txId', '4979a0b69703f888dc5936a4be039dabb976fae7d45604d57b5fad35b3c94200');
+          expect(res[0]).to.has.property('confirmations', 230572);
+          expect(res[1]).to.has.property('txId', 'ffd316b0c4feb9d29c61c3734fcde0167600441e560931c8c7267a9de3d9e29a');
+          expect(res[1]).to.has.property('confirmations', 352331);
 
           done();
         })
