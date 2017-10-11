@@ -57,7 +57,7 @@ describe('Blocks', function() {
           expect(err).to.exist;
           expect(err.res).to.exist;
           done();
-        });
+        }).catch(done);
     });
   });
 
@@ -117,7 +117,7 @@ describe('Blocks', function() {
           expect(err).to.exist;
           expect(err.res).to.exist;
           done();
-        });
+        }).catch(done);
     });
   });
 

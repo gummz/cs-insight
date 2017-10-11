@@ -87,7 +87,7 @@ describe('Addresses', function() {
           expect(err).to.exist;
           expect(err.res).to.exist;
           done();
-        });
+        }).catch(done);
     });
 
     it('should be able to request group of addresses', function(done) {

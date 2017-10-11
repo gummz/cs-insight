@@ -13,7 +13,7 @@
     "test": "mocha --reporter spec --timeout 600000"
   },
   "dependencies": {
-    "axios": "^0.7.0",
+    "axios": "^0.16.2",
     "bitcoinjs-lib": "^1.4.2",
     "es6-promise": "^3.0.2",
     "lodash": "^3.10.1",
@@ -27,6 +27,6 @@
     "eslint-plugin-import": "^2.7.0",
     "eslint-plugin-mocha": "^4.11.0",
     "mocha": "^3.5.3",
-    "nock": "git+https://github.com/hyzhak/nock.git"
+    "nock": "^9.0.22"
   }
 }

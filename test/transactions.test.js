@@ -39,7 +39,7 @@ describe('Transactions', function() {
           expect(err.res).to.exist;
           expect(err.res.message).to.exist;
           done();
-        });
+        }).catch(done);
     });
 
     it('should return transaction', function(done) {
