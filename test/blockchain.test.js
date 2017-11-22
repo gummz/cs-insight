@@ -21,7 +21,7 @@ describe('Blockchain', function() {
     });
 
     it('should setup api network url form params', function() {
-      var blockchain = new Blockchain('testnet', proxyURL, 'http://{{#network}}{{.}}.{{/network}}some-test.url/');
+      var blockchain = new Blockchain('testnet', proxyURL, 'http://test-insight.some-test.url/');
       expect(blockchain.apiURL).to.equal('http://test-insight.some-test.url/');
     });
   });
@@ -31,12 +31,6 @@ describe('Blockchain', function() {
       var blockchain = new Blockchain('testnet');
 
       assert.equal(blockchain.getNetwork(), 'testnet');
-    });
-
-    it('throws on unknown network', function() {
-      assert.throws(function() {
-        new Blockchain('zoigberg');
-      }, /Unknown network: zoigberg/);
     });
   });
 });

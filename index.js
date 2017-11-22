@@ -2,30 +2,18 @@ var assert = require('assert');
 
 var Addresses = require('./lib/addresses');
 var Blocks = require('./lib/blocks');
-var Mustache = require('mustache');
 var Transactions = require('./lib/transactions');
-
-var NETWORKS = {
-  testnet: 'test-insight',
-  bitcoin: 'insight',
-  litecoin: 'ltc'
-};
 
 function Wrapper(network, proxyURL, baseURL) {
   network = network || 'bitcoin';
-  baseURL = baseURL || 'https://{{#network}}{{.}}.{{/network}}bitpay.com/api/';
-  assert(network in NETWORKS, 'Unknown network: ' + network);
-
-  var BASE_URL = Mustache.render(baseURL, {
-    network: NETWORKS[network]
-  });
+  baseURL = baseURL || 'https://test-insight.bitpay.com/api/';
 
   // end points
-  this.addresses = new Addresses(BASE_URL, proxyURL);
-  this.blocks = new Blocks(BASE_URL, proxyURL);
-  this.transactions = new Transactions(BASE_URL, proxyURL);
+  this.addresses = new Addresses(baseURL, proxyURL);
+  this.blocks = new Blocks(baseURL, proxyURL);
+  this.transactions = new Transactions(baseURL, proxyURL);
 
-  this.apiURL = BASE_URL;
+  this.apiURL = baseURL;
   this.network = network;
   this.proxyURL = proxyURL;
 }
