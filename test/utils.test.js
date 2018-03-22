@@ -57,8 +57,7 @@ describe('utils', function() {
           done('got result', res);
         })
         .catch(function(err) {
-          expect(err.item).to.equal('1');
-          expect(err.res.code).to.equal('ECONNRESET');
+          expect(err.code).to.equal('ECONNRESET');
           done();
         });
     });
@@ -155,9 +154,7 @@ describe('utils', function() {
           done('should reject Promise');
         })
         .catch(function(err) {
-          expect(err.item).to.equal('123456');
-          expect(err.url).to.equal('http://some.org/url/');
-          expect(err.res.data).to.equal('Not found');
+          expect(err.message).to.equal('Request failed with status code 404');
           done();
         });
     });

@@ -36,8 +36,7 @@ describe('Transactions', function() {
         })
         .catch(function(err) {
           expect(err).to.exist;
-          expect(err.res).to.exist;
-          expect(err.res.message).to.exist;
+          expect(err.message).to.exist;
           done();
         }).catch(done);
     });

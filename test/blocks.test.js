@@ -55,7 +55,6 @@ describe('Blocks', function() {
         })
         .catch(function(err) {
           expect(err).to.exist;
-          expect(err.res).to.exist;
           done();
         }).catch(done);
     });
@@ -115,7 +114,6 @@ describe('Blocks', function() {
         })
         .catch(function(err) {
           expect(err).to.exist;
-          expect(err.res).to.exist;
           done();
         }).catch(done);
     });

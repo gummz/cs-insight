@@ -37,7 +37,7 @@ describe('Addresses', function() {
           done('does not fail');
         })
         .catch(function(err) {
-          expect(err.res.message).to.equal('XXXX is not a valid address');
+          expect(err.message).to.equal('XXXX is not a valid address');
           done();
         });
     });
@@ -85,7 +85,6 @@ describe('Addresses', function() {
         })
         .catch(function(err) {
           expect(err).to.exist;
-          expect(err.res).to.exist;
           done();
         }).catch(done);
     });
@@ -137,7 +136,6 @@ describe('Addresses', function() {
         })
         .catch(function(err) {
           expect(err).to.exist;
-          expect(err.res).to.exist;
           done();
         });
     });
