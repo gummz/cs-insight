@@ -1,6 +1,6 @@
 {
   "name": "cs-insight",
-  "version": "3.2.5",
+  "version": "3.3.0",
   "description": "common-blockchain-blockr",
   "main": "./src/index.js",
   "repository": {
