@@ -10,7 +10,7 @@ describe('Addresses', function() {
   var addresses;
 
   before(function() {
-    var api = new Blockchain('testnet');
+    var api = new Blockchain('testnet', '');
     addresses = api.addresses;
   });
 

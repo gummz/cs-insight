@@ -132,18 +132,6 @@ describe('utils', function() {
         .catch(done);
     });
 
-    it('should request thought proxy if it passed to options', function(done) {
-      nock('http://proxy.org')
-        .get('/url?query=' + encodeURIComponent('http://one.org/url/1'))
-        .reply(200);
-
-      batchGetRequest('http://one.org/url/', 1, {proxyUrl: 'http://proxy.org/url?query='})
-        .then(function() {
-          done();
-        })
-        .catch(done);
-    });
-
     it('should reject Promise on 404', function(done) {
       nock('http://some.org')
         .get('/url/123456')
@@ -277,18 +265,6 @@ describe('utils', function() {
         'The Owl and the Pussy-cat went to sea',
         'In a beautiful pea green boat,'
       ])
-        .then(function() {
-          done();
-        })
-        .catch(done);
-    });
-
-    it('should send POST thought passed proxy', function(done) {
-      nock('http://proxy.org')
-        .post('/url?query=' + encodeURIComponent('http://google.com/cat-poems'), 'Cats sleep, anywhere')
-        .reply(201);
-
-      batchPostRequest('http://google.com/cat-poems', 'Cats sleep, anywhere', {proxyUrl: 'http://proxy.org/url?query='})
         .then(function() {
           done();
         })
