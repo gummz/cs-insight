@@ -5,8 +5,8 @@ var Blocks = require('./lib/blocks');
 var Transactions = require('./lib/transactions');
 
 function Wrapper(network, baseURL) {
-  network = network || 'bitcoin';
-  baseURL = baseURL || 'https://test-insight.bitpay.com/api/';
+  network = network || 'smileycoin';
+  baseURL = baseURL || 'http://blocks.harri.is/api/';
 
   // end points
   this.addresses = new Addresses(baseURL);
