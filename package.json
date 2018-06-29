@@ -14,7 +14,7 @@
   },
   "dependencies": {
     "axios": "^0.16.2",
-    "bitcoinjs-lib": "git://github.com/CoinSpace/bitcoinjs-lib.git#v3.3.1",
+    "bitcoinjs-lib": "git://github.com/harriorri/bitcoinjs-lib.git",
     "es6-promise": "^3.0.2",
     "lodash": "^4.17.5",
     "path-to-regexp": "^1.2.1"
