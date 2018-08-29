@@ -6,7 +6,7 @@ var Transactions = require('./lib/transactions');
 
 function Wrapper(network, baseURL) {
   network = network || 'smileycoin';
-  baseURL = baseURL || 'http://blocks.harri.is/api/';
+  baseURL = baseURL || 'https://blocks.smileyco.in/api/';
 
   // end points
   this.addresses = new Addresses(baseURL);
