@@ -6,8 +6,10 @@ var Transactions = require('./lib/transactions');
 
 function Wrapper(network, baseURL) {
     network = network || 'smileycoin';
+    // Nota skodari.broslaugin.com meðan bálkaskoðari 
+    // er ekki uppfærður
     //baseURL = baseURL || 'https://blocks.smileyco.in/api/';
-    baseURL = baseURL || 'https://skodari.broslaugin.com/api/'; // MUNA AÐ SKIPTA ÚT
+    baseURL = baseURL || 'https://skodari.broslaugin.com/api/';
 
     // end points
     this.addresses = new Addresses(baseURL);
