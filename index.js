@@ -10,8 +10,8 @@ function Wrapper(network, baseURL) {
     // er ekki uppfærður 
     // Use skodari.broslaugin.com for testing while
     // main block explorer has not been updated
-    //baseURL = baseURL || 'https://blocks.smileyco.in/api/';
-    baseURL = baseURL || 'https://skodari.broslaugin.com/api/';
+    baseURL = baseURL || 'https://blocks.smileyco.in/api/';
+    //baseURL = baseURL || 'https://skodari.broslaugin.com/api/';
 
     // end points
     this.addresses = new Addresses(baseURL);
